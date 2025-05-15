@@ -1,0 +1,218 @@
+/*     ROOT     */
+
+:root{
+
+    --primary-color : #00297a;
+    --secondary-color: #0559FF;
+    --tertiary-color: #cbd6f2;
+    --alternate-color: #F8FCFF;
+
+    --primary-text-color: #282828;
+    --secondary-text-color: #6C6B6B;
+    --tertiary-text-color: #C0CFED;
+
+    --primary-bg-color: #fff;
+    /*--secondary-bg-color:*/ 
+
+    --primary-btn: #032C7E;
+    /*--secondary-btn: */
+
+    --textField-color: #F8FCFF;
+    --placehorlder: #C0CFED;
+    --border-color: #E0EAFF;
+
+}
+
+
+
+/*   GENERAL    */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+h1,h2,h3,h4,h5,h6,a,p{
+    font-family: "Kanit";
+}
+
+a{
+text-decoration: none;
+}
+
+li{
+    list-style: none;
+}
+
+
+/*    LOGIN CONTAINER   */
+
+#container {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+}
+
+#image{
+    width: 50%;
+    height: 95vh;
+    border-radius: 12px;
+    background: url('/front/male-business-executive-giving-speech.jpg') no-repeat center;
+    background-size: cover;
+}
+
+#form{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    width: 50%; 
+    margin-top: 40px;
+}
+
+.dividerflex{
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+}
+
+.dividerflex .active{
+    border: 2px solid var(--secondary-color);
+    color:var(--secondary-color);
+}
+.divider{
+    width: 220px;
+    border: 1.5px solid rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    align-self: flex-start;
+}
+
+.navtab{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 200px;
+    margin: 0px;
+}
+
+.navtab a{
+    text-decoration: none;
+    color: var(--primary-text-color);
+    padding: 8px 18px;
+    border-radius: 10px;
+    transition: .5s;
+}
+
+.navtab a:hover{
+    background-color: var(--alternate-color);
+}
+
+.navtab .choice{
+    color: var(--primary-color);
+}
+
+/*texte head*/
+
+#form .title{
+    margin-top: 20px;
+}
+
+#form .subtitle{
+    color: var(--secondary-text-color);
+}
+
+
+/*formulaire*/
+.text-field{
+    padding: 8px 40px 8px 20px;
+    border-radius: 8px;
+    background: var(--textField-color);
+    width: 350px;
+    color: var(--placehorlder);
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+}
+
+.input{
+    padding: 0px 5px;
+    margin:0px 6px;
+    border-radius: 8px;
+    background: var(--textField-color);
+    width: 350px;
+    color: var(--primary-color);
+    font-weight: 600;
+    border: none;
+}
+
+.input:focus {
+    outline: none; 
+}
+
+.input::placeholder {
+    color: var(--placehorlder); 
+    font-weight: 600;
+    opacity: 1; 
+}
+  
+.input::-webkit-input-placeholder { 
+    color: var(--placehorlder); 
+}
+
+.input::-moz-placeholder { 
+    color: var(--placehorlder); 
+    opacity: 1;
+}
+
+.input:-ms-input-placeholder { 
+    color: var(--placehorlder); 
+}
+
+.input:-moz-placeholder {
+    color: var(--placehorlder); 
+    opacity: 1;
+}
+
+
+.forgot{
+    margin: 25px 0px 55px 200px;
+    text-decoration: none;
+}
+
+.login-btn{
+    width: 350px;
+    padding: 10px 0px;
+    background: var(--primary-btn);
+    color: white;
+    border: none;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: .5s;
+}
+
+.login-btn:hover{
+    background: #03256a;
+}
+
+.other-provider{
+    width: 450px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+}
+
+.other-provider .card{
+    padding: 14px 28px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--alternate-color);
+    transition: .3s;
+}
+
+.other-provider .card:hover{
+    background: white;
+}
+
