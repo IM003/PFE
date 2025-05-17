@@ -59,7 +59,7 @@ li{
     width: 50%;
     height: 95vh;
     border-radius: 12px;
-    background: url('/front/male-business-executive-giving-speech.jpg') no-repeat center;
+    background: url('../image/male-business-executive-giving-speech.jpg') no-repeat center;
     background-size: cover;
 }
 
