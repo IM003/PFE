@@ -1,0 +1,175 @@
+
+
+/* ROOT */
+:root{
+
+    --primary-color : #00297a;
+    --secondary-color: #0559FF;
+    --tertiary-color: #cbd6f2;
+    --alternate-color: #F8FCFF;
+
+    --primary-text-color: #282828;
+    --secondary-text-color: #6C6B6B;
+    --tertiary-text-color: #ffffff;
+    
+
+    --special-color: linear-gradient(to bottom, #00297a, #0559FF);
+
+    --primary-bg-color: #fff;
+    /*--secondary-bg-color:*/
+
+    --primary-btn: #032C7E;
+    /*--secondary-btn: */
+
+    --textField-color: #F8FCFF;
+    --placehorlder: #C0CFED;
+    --border-color: #E0EAFF;
+
+    --success: #03c000;
+    --danger: #a80000;
+    --warning: #ffa200;
+
+}
+
+
+
+/* General */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+li{
+    list-style: none;
+}
+
+h1, h2, h3, h4, h5, h5, p, a{
+    font-family: "Kanit", sans-serif;
+}
+
+html, body{
+    overflow: hidden;
+    margin: 0;
+    height: 100%;
+}
+
+
+
+/*   NAV BAR    */
+
+
+
+.page-navbar{
+    background-color: var(--primary-color);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.page-navbar .openlogo{    
+    padding: 22px 18px 0px 38px;
+}
+
+.page-navbar .openlogo img{
+    width: 200px;
+}
+
+.page-navbar ul{
+    min-height: 200px;
+    margin:30px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.page-navbar ul li{
+    padding: 8px 12px;
+    margin: 5px;
+    border-radius:8px;
+    align-items: center;  
+}
+
+.page-navbar ul li:hover{
+    background-color: #ffffff24;  
+}
+
+.page-navbar ul li a{
+    padding: 8px 120px 8px 12px;
+    border: none;
+    text-decoration: none;
+    font-size: 18px;
+    color: var(--tertiary-text-color);  
+}
+
+
+.page-navbar ul li .active::before{
+    content: "";
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: #03c000;
+
+}
+
+.page-navbar ul li a svg{
+    fill:#fff;
+    margin-right: 6px;
+}
+
+.page-navbar .user-profile{
+    color: var(--tertiary-text-color);
+    align-items: center;
+    display: flex;
+    gap: 12px;
+}
+
+.page-navbar .user-profile h3{
+    background-color: rgb(183, 66, 255);
+    padding: 8px 11px;
+    border-radius: 100%;
+
+}
+
+.page-navbar .logout-btn{
+    margin-top: 18px;
+    border: none;
+    background: transparent;
+    color: rgb(0, 234, 255);
+    font-size: 18px;
+    font-weight: bold;
+    padding: 8px 18px;
+    border-radius: 9px;
+}
+
+.page-navbar .logout-btn:hover{
+    border: 1px solid;
+}
+
+.page-navbar #divider{
+    color: #fff;
+    width: 100%;
+    border: 1px solid #fff;
+    margin-top: 45px;
+}
+
+
+/*    CONTENT   */
+
+
+.page-content{
+  overflow-y: auto;
+  height: 100vh;
+  scrollbar-width: thin;
+  scrollbar-color: var(--secondary-color);  
+}
+

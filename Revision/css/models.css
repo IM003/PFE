@@ -1,0 +1,67 @@
+@import url('./common.css');
+
+
+
+/*   Model Content   */
+
+
+.titre{
+    padding: 12px;
+
+}
+
+#app-models, #user-models{
+    background:#eff4fe;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 28px;
+}
+
+.carte{
+    transition: .5s;
+    cursor: pointer;
+    margin: 12px;
+}
+
+.carte:hover{
+     transform: scale(1.1);
+}
+
+.carte .model-image{
+    width: 300px;
+}
+
+
+
+
+/*  Personnalisee Modele   */
+
+.model-menu{
+    background-color: white;
+    height: 100vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.model-visual{
+    background: #EEE;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.model-visual button{
+    margin: 22px 24px;
+    align-self: self-end;
+}
+
+
+
+.template-image{
+    width: 800px;
+}

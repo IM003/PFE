@@ -1,0 +1,63 @@
+@import url('./common.css');
+
+.event-page{
+    background: #EEE;
+}
+
+.event-page .navbar {
+    background: white;
+    padding: 20px;
+    margin: 0;
+}
+
+
+.event-page .navbar .search-bar{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-bar .add-btn{
+    margin-right: 30px;
+    width: 400px;
+}
+
+
+
+
+/*   evenements   */
+
+.event-container{
+    padding: 28px;
+}
+
+.event-card{
+    width: 300px;
+    height: 180px;
+    background: var(--primary-color);
+    padding: 6px;
+    color: white;
+    border-radius: 10px;
+    margin: 24px;
+}
+
+.event-card .poster{
+    width: 100%;
+    height: 110px;
+    background: var(--special-color);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.carde-body{
+    margin: 4px 6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.carde-body item{
+    display: flex;
+    gap: 3px;
+}
+
+

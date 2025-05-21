@@ -6,7 +6,7 @@
     
     <title>openCert - Créer un compte</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='./css/styleSign.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./css/styleRegister.css')}}">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -23,6 +23,7 @@
     
     <section id="container">
         <div id="image"></div>
+
         <div id="form">
             <ul class="navtab">
                 <li>
@@ -43,26 +44,58 @@
 
             <p class="subtitle">Saisissez toutes les informations ci-dessous.</p>
 
-            
-            <div class="text-field">
-                <span>@</span>
-                <input type="text" name="email" class="input" id="email" placeholder="Email...">
-            </div>
-            <br>
 
-            <div class="text-field">
-                <i class="bi bi-lock"></i>
-                <input type="password" name="email" class="input" id="email" placeholder="Mot de passe...">
-            </div>
-            <br>
+            <form action="/register" method="POST">
 
-            <div class="text-field">
-                <i class="bi bi-lock"></i>
-                <input type="password" name="email" class="input" id="email" placeholder="Confirmer mot de passe...">
-            </div>
-            <br><br>
+                {{ form.hidden_tag()}}
 
-            <button class="login-btn" id="login">Créer mon compte</button>
+                <div class="text-field">
+                    <i class="bi bi-person"></i> 
+                   
+                    {{ form.name(class="input", placeholder="Nom d'utilisateur...")}}
+
+                    {% for error in form.name.errors %}
+                        <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
+                    <!--  {{ form.name.label(class="bi bi-person")}}
+                    <input type="text" name="name" class="input" id="name" placeholder="Nom d'utilisateur..."> -->
+                </div>
+
+                <br>
+        
+                <div class="text-field">
+                    <span>@</span>
+                    
+                    {{ form.email(class="input", placeholder="Email...")}}
+
+                    {% for error in form.email.errors %}
+                        <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
+                   <!-- {{ form.email.label(class="bi bi-email")}}
+                    <input type="email" name="email" class="input" id="email" placeholder="Email..."> -->
+                </div>
+                <br>
+
+                <div class="text-field">
+
+                    <i class="bi bi-lock"></i>
+                    {{ form.password(class="input", placeholder="Mot de passe...")}}
+
+                    {% for error in form.password.errors %}
+                        <span style="color: red;">[{{ error}}]</span>
+                    {% endfor %}
+                    
+                   <!--
+                    {{ form.password.label(class="bi bi-lock")}}
+                   <input type="password" name="password" class="input" id="password" placeholder="Mot de passe..."> -->
+                </div>
+
+                <br><br>
+
+                {{ form.submit(class="login-btn", id="login")}}
+                <!--<button class="login-btn" id="login">Créer mon compte</button>-->
+
+            </form>
 
             <div style=" margin-top:10px; display: flex; align-items:center;">
                 <hr style="width: 100px; color:black; border:1px solid #000;">
