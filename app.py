@@ -5,6 +5,10 @@ from wtforms.validators import DataRequired, Email, ValidationError
 import bcrypt
 from flask_mysqldb import MySQL 
 
+
+
+#APP config
+
 app = Flask(__name__)
 
 
@@ -22,6 +26,9 @@ class RegisterForm(FlaskForm):
     password = PasswordField('password', validators=[DataRequired()])
     submit = SubmitField('Register')
 
+
+
+# Les routes
 
 @app.route('/')
 def home():
@@ -57,6 +64,31 @@ def register():
         return redirect(url_for('login'))
 
     return render_template('register.html', form=form)
+
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/modeles')
+def modeles():
+    return render_template('modeles.html')
+
+@app.route('/modelesDetails')
+def modelesDetails():
+    return render_template('modelesDetails.html')
+
+@app.route('/events')
+def events():
+    return render_template('events.html')
+
+@app.route('/eventsDetails')
+def eventsDetails():
+    return render_template('eventsDetails.html')
+
+@app.route('/certificates')
+def certificates():
+    return render_template('certificate.html')
+
 
 
 
