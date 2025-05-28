@@ -1,15 +1,443 @@
-<html>
-    <head></head>
-    <body>
-        <h1>WELCOME TO HOME PAGE</h1>
-        <br>
-        <a href="{{ url_for('login')}}" >Se connecter</a>
-        <br>
-        <a href="{{ url_for('register')}}" >Créer un compte</a>
-        <br>
-        <a href="{{ url_for('dashboard')}}" >dashboard</a>
-        
+<!DOCTYPE html>
+<html lang="fr">
 
-        
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>openCert</title>
 
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600;700&family=Readex+Pro&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Style personnalisé -->
+  <style>
+    body {
+      font-family: 'Readex Pro', sans-serif;
+      background-color: #fff;
+      color: #282828;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Kanit', sans-serif;
+    }
+
+    a {
+      color: #0559FF;
+      text-decoration: none;
+    }
+
+    a {
+      font-family: 'Readex Pro', sans-serif;
+      color: #00297a;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #0559FF;
+    }
+
+    .btn-primary {
+      background-color: #032C7E;
+      border-color: #032C7E;
+      font-family: 'Readex Pro', sans-serif;
+    }
+
+    .btn-primary:hover {
+      background-color: #0559FF;
+    }
+
+    .hero-section {
+      padding: 2rem 0;
+    }
+
+    .section-title {
+      border-top: 2px solid #00297a;
+      padding-top: 1rem; 
+    }
+
+    .section-light {
+      background-color: #F8FCFF;
+      background-color: #cbd6f2;
+    }
+
+    .section-light1 {
+      background-color: #f9f9f9;
+    }
+
+    .text-secondary {
+      color: #6C6B6B;
+    }
+
+    .text-tertiary {
+      color: #C0CFED;
+    }
+
+    .accordion-button:not(.collapsed) {
+      background-color: #cbd6f2;
+      color: #00297a;
+    }
+
+    footer {
+      background-color: #00297a;
+      color: white;
+      padding: 40px 0;
+    }
+
+    footer a {
+      color: #C0CFED;
+    }
+
+    .footer-border {
+      border-top: 2px solid #0559FF;
+    }
+
+    .nav-link {
+      color: #00297a;
+    }
+
+    .nav-link:hover {
+      color: #0559FF;
+    }
+    
+    .video-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+    }
+
+    .video-thumbnail {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .play-button i {
+      font-size: 32px;
+      color: #000;
+    }
+
+    @media (max-width: 768px) {
+      .play-button {
+        width: 60px;
+        height: 60px;
+      }
+
+      .play-button i {
+        font-size: 24px;
+      }
+    }
+
+    .menu-left {
+      background-color: #f8fcff;
+      border-radius: 0.5rem;
+      padding: 3rem;
+    }
+
+    .menu-left .nav-link.active {
+      background-color: #002b7f;
+      color: white;
+      border-radius: 0.5rem;
+    }
+
+    .content-area {
+      max-height: 70vh;
+      overflow-y: auto;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      border-radius: 0.5rem;
+    }
+
+    .footer-custom {
+      background-color: #00297a;
+      color: white;
+      padding: 40px 0;
+    }
+
+    .footer-logo {
+      width: 100px;
+      height: 100px;
+      margin-right: 20px;
+      background-color: #dce6f8;
+    }
+
+    .footer-title {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .footer-description {
+      color: #d0d8f2;
+    }
+
+    .footer-heading {
+      font-weight: bold;
+    }
+
+    .footer-list {
+      line-height: 2;
+      padding-left: 0;
+    }
+
+    .footer-link {
+      color: white;
+      text-decoration: none;
+    }
+
+    .footer-link:hover {
+      text-decoration: underline;
+      color: #d0d8f2;
+    }
+
+    .footer-separator {
+      border-top: 2px solid #0559FF;
+      margin: 40px 0;
+    }
+
+    .footer-copyright {
+      margin-bottom: 10px;
+    }
+
+    .img-reduite {
+  max-width: 70%;   
+  height: auto;
+    }
+
+    .img-reduitehero {
+  max-width: 80%;
+  height: auto;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Barre de navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+    <img src="./images/icon-bleu.png" style="width: 50px;" alt="Logo">
+      <a class="navbar-brand fw-bold" style="color:#00297a;" href="#">OpenCert</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="#">Accueil</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Fonctionnalités</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Prix</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Connexion</a></li>
+          <li class="nav-item ms-2">
+            <a class="btn btn-primary" href="#">Créer un compte</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+
+  <!-- Section Héros -->
+<section class="hero-section text-center">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-start">
+        <h1 class="fw-bold"> Importez, générez et <br> envoyez vos attestations</h1>
+        <p class="mt-3 text-secondary"> Notre plateforme rapide et facile <br> simplifie la création des attestations pour tous vos évènements.</p>
+        <a href="#" class="btn btn-primary mt-3"> Démarrer gratuitement</a> 
+        <br> <br>
+      </div>
+      <div class="col-md-6">
+        <img src="./images/icône.jpg" alt="Illustration" class="img-fluid img-reduitehero">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <!-- Section openCert -->
+  <section class="section-light py-5">
+    <div class="container text-center">
+      <hr>
+      <h2 class="mb-3">Qu’est-ce que OpenCert ?</h2>
+      <p class="mx-auto" style="max-width: 700px;">openCert est un système de gestion d’attestation complet et facile à utiliser. 
+        Choisissez votre modèle, puis personnalisez-le selon vos propres images et textes. <br> Avec OpenCert vous pouvez, en un seul clic, 
+        transférer la liste de tous vos participants et générer automatiquement leurs attestations. Effocace, notre plateforme vous aide à créer 
+        et à envoyer vos attestations facilement.</p>
+    </div>
+  </section>
+
+
+  <!-- Comment ça marche -->
+  <section class="py-5">
+    <div class="container text-center">
+      <h2 class="mb-4">Comment ça marche</h2>
+      <div class="video-container mx-auto" style="max-width: 600px;">
+        <img src="https://via.placeholder.com/800x450.png?text=Video+Thumbnail" alt="Tuto" class="video-thumbnail">
+        <div class="play-button">
+          <i class="bi bi-play-fill"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+  <!-- Menu scrollable avec contenu unique -->
+<section class="container-fluid py-4">
+  <div class="row" style="margin: 20px 50px;">
+    
+    <!-- section intérieure gauche -->
+    <div class="col-md-3 menu-left sticky-top">
+      <nav class="nav flex-column">
+        <a class="nav-link active" data-bs-toggle="collapse" href="#section-1" role="button" aria-expanded="true" aria-controls="section-1">Item 1</a>
+        <a class="nav-link" data-bs-toggle="collapse" href="#section-2" role="button" aria-expanded="false" aria-controls="section-2">Item 2</a>
+        <a class="nav-link" data-bs-toggle="collapse" href="#section-3" role="button" aria-expanded="false" aria-controls="section-3">Item 3</a>
+      </nav>
+    </div>
+
+    <!-- section intérieure droite -->
+    <div class="col-md-9">
+      <div class="collapse show content-area" id="section-1">
+        <h4>Contenu de l'Item 1</h4>
+        <p>Le paragraphe lié à l’item 1.</p>
+      </div>
+
+      <div class="collapse content-area" id="section-2">
+        <h4>Contenu de l'Item 2</h4>
+        <p>Le paragraphe lié à l’item 2.</p>
+      </div>
+
+      <div class="collapse content-area" id="section-3">
+        <h4>Contenu de l'Item 3</h4>
+        <p>Le paragraphe lié à l’item 3.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+  <!-- Avantages -->
+  <section class="section-light1 py-5">
+    <div class="container text-center">
+      <h3 class="mb-4">Des avantages réels et tangibles de l’automatisation des attestations</h3>
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <img src="./images/certification.png" alt="Certificat" class="img-fluid img-reduite">
+        </div>
+        <div class="col-md-6">
+          <div class="accordion" id="accordionAvantages">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                  Avantage 1
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse collapse show">
+                <div class="accordion-body text-start">
+                    Contenu de l'avantage 1.
+                </div>
+              </div>
+            </div>
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                  Avantage 2
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse">
+                <div class="accordion-body text-start">
+                  Contenu de l'avantage 2.
+                </div>
+              </div>
+            </div>
+            <!-- Ajoutons d'autres items au besoin -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Le call to Action -->
+  <section class="py-5 text-center">
+    <div class="container">
+      <h3 class="mb-4">Générez vos attestations maintenant</h3>
+      <a href="#" class="btn btn-primary">Démarrer gratuitement</a>
+    </div>
+  </section>
+
+
+  <!-- Le footer -->
+  <footer class="footer-custom">
+    <div class="container">
+      <div class="row align-items-start">
+        <!-- Logo et description -->
+        <div class="col-md-4 d-flex">
+          <img src="./images/icone du footer.jpeg" alt="Logo" class="footer-logo">
+          <div>
+            <h2 class="footer-title">OpenCert</h2>
+            <p class="footer-description">
+              Notre plateforme rapide et facile <br>
+              simplifie la création de certificats <br>
+              pour toutes vos conférences.
+            </p>
+          </div>
+        </div>
+  
+        <!-- Menu -->
+        <div class="col-md-4 mt-4 mt-md-0">
+          <h6 class="footer-heading">Menu</h6>
+          <ul class="list-unstyled footer-list">
+            <li><a href="#" class="footer-link">Accueil</a></li>
+            <li><a href="#" class="footer-link">Fonctionnalités</a></li>
+            <li><a href="#" class="footer-link">Prix</a></li>
+            <li><a href="#" class="footer-link">Centre d’aide</a></li>
+          </ul>
+        </div>
+  
+        <!-- Politiques -->
+        <div class="col-md-4 mt-4 mt-md-0">
+          <h6 class="footer-heading">Politiques & Conditions</h6>
+          <ul class="list-unstyled footer-list">
+            <li><a href="#" class="footer-link">À propos</a></li>
+            <li><a href="#" class="footer-link">Conditions d’utilisation</a></li>
+            <li><a href="#" class="footer-link">Politique de confidentialité</a></li>
+          </ul>
+        </div>
+      </div>
+  
+      <hr class="footer-separator">
+  
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <p class="footer-copyright">&copy; 2025 OpenCert. Tous droits réservés.</p>
+        <div>
+          <a href="https://wa.me/212679878229" class="footer-link me-3">
+            <i class="bi bi-whatsapp"></i> WhatsApp
+          </a>
+          <a href="tel:+212679878229" class="footer-link">
+            <i class="bi bi-telephone"></i> +212 X XX XX XX XX
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
 </html>
