@@ -4,9 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-      <link rel="shortcut icon" href="{{url_for('static', filename='./image/icon-bleu.png')}}" type="image/x-icon">
 
+      <link rel="shortcut icon" href="{{url_for('static', filename='./image/icon-bleu.png')}}" type="image/x-icon">
   <title>openCert</title>
 
   <!-- Google Fonts -->
@@ -63,6 +62,7 @@
 
     .section-light {
       background-color: #F8FCFF;
+
       
     }
 
@@ -236,7 +236,10 @@
   <!-- Barre de navigation -->
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
     <div class="container">
+
     <img src="{{url_for('static', filename='./image/icon-bleu.png')}}" style="width: 50px;" alt="Logo">
+    <img src="./images/icon-bleu.png" style="width: 50px;" alt="Logo">
+
       <a class="navbar-brand fw-bold" style="color:#00297a;" href="#">OpenCert</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
@@ -244,11 +247,18 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="#">Accueil</a></li>
+
           <li class="nav-item"><a class="nav-link" href="#" onclick="alert('Coming Soon'); return false;">Ressources</a></li>
           <li class="nav-item"><a class="nav-link" href="#" onclick="alert('Coming Soon'); return false;">Tarification</a></li>
           <li class="nav-item"><a class="nav-link" href="/login">Connexion</a></li>
           <li class="nav-item ms-2">
             <a class="btn btn-primary" href="/register">Créer un compte</a>
+
+          <li class="nav-item"><a class="nav-link" href="#">Fonctionnalités</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Prix</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Connexion</a></li>
+          <li class="nav-item ms-2">
+            <a class="btn btn-primary" href="#">Créer un compte</a>
           </li>
         </ul>
       </div>
@@ -263,11 +273,19 @@
       <div class="col-md-6 text-start">
         <h1 class="fw-bold"> Importez, générez et <br> envoyez vos attestations</h1>
         <p class="mt-3 text-secondary"> Notre plateforme rapide et facile <br> simplifie la création des attestations pour tous vos évènements.</p>
+
         <a href="/login" class="btn btn-primary mt-3"> Démarrer gratuitement</a> 
         <br> <br>
       </div>
       <div class="col-md-6">
         <img src="{{url_for('static', filename='./image/certificateBoy.jpg')}}" alt="Illustration" class="img-fluid img-reduitehero">
+
+        <a href="#" class="btn btn-primary mt-3"> Démarrer gratuitement</a> 
+        <br> <br>
+      </div>
+      <div class="col-md-6">
+        <img src="./images/icône.jpg" alt="Illustration" class="img-fluid img-reduitehero">
+
       </div>
     </div>
   </div>
@@ -342,7 +360,11 @@
       <h3 class="mb-4">Des avantages réels et tangibles de l’automatisation des attestations</h3>
       <div class="row align-items-center">
         <div class="col-md-6">
+
           <img src="{{url_for('static', filename='./image/certificateGirl.png')}}" alt="Certificat" class="img-fluid img-reduite">
+
+          <img src="./images/certification.png" alt="Certificat" class="img-fluid img-reduite">
+
         </div>
         <div class="col-md-6">
           <div class="accordion" id="accordionAvantages">
@@ -382,7 +404,11 @@
   <section class="py-5 text-center">
     <div class="container">
       <h3 class="mb-4">Générez vos attestations maintenant</h3>
+
       <a href="/login" class="btn btn-primary">Démarrer gratuitement</a>
+
+      <a href="#" class="btn btn-primary">Démarrer gratuitement</a>
+
     </div>
   </section>
 
@@ -393,7 +419,11 @@
       <div class="row align-items-start">
         <!-- Logo et description -->
         <div class="col-md-4 d-flex">
+
           <img src="{{url_for('static', filename='./image/icon-blanc.jpg')}}" alt="Logo" class="footer-logo">
+
+          <img src="./images/icone du footer.jpeg" alt="Logo" class="footer-logo">
+
           <div>
             <h2 class="footer-title">OpenCert</h2>
             <p class="footer-description">
@@ -404,13 +434,22 @@
           </div>
         </div>
 
+
+
+  
+
         <!-- Menu -->
         <div class="col-md-4 mt-4 mt-md-0">
           <h6 class="footer-heading">Menu</h6>
           <ul class="list-unstyled footer-list">
             <li><a href="#" class="footer-link">Accueil</a></li>
+
             <li><a class="footer-link" href="#" onclick="alert('Coming Soon'); return false;">Ressources</a></li>
             <li><a class="footer-link" href="#" onclick="alert('Coming Soon'); return false;">Tarification</a></li>
+
+            <li><a href="#" class="footer-link">Fonctionnalités</a></li>
+            <li><a href="#" class="footer-link">Prix</a></li>
+
             <li><a href="#" class="footer-link">Centre d’aide</a></li>
           </ul>
         </div>
@@ -431,7 +470,11 @@
       <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
         <p class="footer-copyright">&copy; 2025 OpenCert. Tous droits réservés.</p>
         <div>
+
           <a href="https://wa.me/212XXXXXXXXX" class="footer-link me-3">
+
+          <a href="https://wa.me/212679878229" class="footer-link me-3">
+
             <i class="bi bi-whatsapp"></i> WhatsApp
           </a>
           <a href="tel:+212679878229" class="footer-link">
@@ -443,4 +486,8 @@
   </footer>
 
 </body>
+
 </html>
+
+</html>
+
