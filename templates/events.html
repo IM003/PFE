@@ -28,10 +28,11 @@
                         </div>
                         <div class="modal-body">
                             
-                            <form class="form-control needs-validation" novalidate>
-                            
+                            <form class="form-control needs-validation" method="POST" action="{{ url_for('routes.events', id=evenement.id) }}" novalidate>
+                                <input type="hidden" name="add_participant" value="1">
+
                                 <label for="validationCustom01" class="form-label">Nom Complet</label>
-                                <input type="text" class="form-control" id="validationCustom01" required>
+                                <input type="text" class="form-control" name="nom" id="validationCustom01" required>
                                 <div class="invalid-feedback">
                                   Entrer le nom et prenom du participant !
                                 </div>
@@ -39,7 +40,7 @@
                                 <br>
                           
                                 <label for="validationCustom02" class="form-label">Email </label>
-                                <input type="text" class="form-control" id="validationCustom02" required>
+                                <input type="text" class="form-control" name="email" id="validationCustom02" required>
                                 <div class="invalid-feedback">
                                   Entrer l'email du participant !
                                 </div>
@@ -47,7 +48,7 @@
                               <br>
 
                                 <label for="validationCustom02" class="form-label">Titre de l'article </label>
-                                <input type="text" class="form-control" id="validationCustom02" required>
+                                <input type="text" class="form-control" name="titre_article" id="validationCustom02" required>
                                 <div class="invalid-feedback">
                                     Entrer le titre de l'article !
                                 </div>
@@ -55,7 +56,7 @@
                               
                                 <br><br>
                               <div class="col-12">
-                                <button class="btn btn-primary" type="submit">Ajouter</button>
+                                <button class="btn btn-primary" name="submit" type="submit">Ajouter</button>
                               </div>
   
                             </form>
@@ -101,54 +102,40 @@
             <br><br>
             <table>
                 <tr>
-                  <th>ID</th>
-                  <th>Nom & Prénom</th>
-                  <th>Email</th>
+                    <th>ID</th>
+                    <th>Nom & Prénom</th>
+                    <th>Email</th>
                     <th>Titre</th>
                     <th>Action</th>
                 </tr>
+                {% for participant in participants %}
                 <tr>
-                  <td>1</td>
-                  <td>Maria Anders</td>
-                  <td>Germany</td>
-                  <td>Technologie numerique de demain </td>
-                  <td>
-                    <button class="btn btn-primary"><span class="bi bi-pencil-square"></span></button>
-                    <button class="btn btn-danger"><span class="bi bi-trash"></span></button>
-                </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Francisco Chang</td>
-                  <td>Mexico</td>
-                  <td>Technologie numerique de demain </td>
-                  <td>
-                    <button class="btn btn-primary"><span class="bi bi-pencil-square"></span></button>
-                    <button class="btn btn-danger"><span class="bi bi-trash"></span></button>
-                </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>Roland Mendel</td>
-                  <td>Austria</td>
-                  <td>Technologie numerique de demain </td>
-                  <td>
-                    <button class="btn btn-primary"><span class="bi bi-pencil-square"></span></button>
-                    <button class="btn btn-danger"><span class="bi bi-trash"></span></button>
-                </td>
-                </tr>
-                <tr>
-                  <td>4</td>
-                  <td>Helen Bennett</td>
-                  <td>UK</td>
-                  <td>Technologie numerique de demain </td>
-                  <td>
-                    <button class="btn btn-primary"><span class="bi bi-pencil-square"></span></button>
-                    <button class="btn btn-danger"><span class="bi bi-trash"></span></button>
-                </td>
-                </tr>
+                    <td>{{ participant.id }}</td>
+                    <td>{{ participant.nom }}</td>
+                    <td>{{ participant.email }}</td>
+                    <td>{{ participant.titre_article }}</td>
+                    <td>
+                        <a href="{{ url_for('routes.edit_participant', id=participant.id) }}" 
+                          class="btn btn-primary btn-sm">
+                          <span class="bi bi-pencil-square"></span>
+                        </a>
+                        
+                        <form method="POST" action="{{ url_for('routes.events', id=evenement.id) }}" style="display:inline;">
+                      
+                            <input type="hidden" name="delete_participant" value="1">
+                            <input type="hidden" name="participant_id" value="{{ participant.id }}">
+                      
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Supprimer ce participant?')">
+                                <span class="bi bi-trash"></span>
+                            </button>
 
-              </table>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
         </section>
 
 
@@ -181,12 +168,15 @@
             
 
             <form method="POST" action="{{ url_for('routes.events', id=evenement.id) }}">
-           
-            <button type="submit" class="btn btn-warning" 
-                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement?')">
-                Supprimer l'événement <span class="bi bi-trash"></span>
-            </button>
-          </form>
+              <input type="hidden" name="delete_evenement" value="1">
+
+              <button type="submit" class="btn btn-warning" 
+                      onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement?')">
+                  Supprimer l'événement <span class="bi bi-trash"></span>
+              
+                </button>
+          
+            </form>
 
             <br>
             <a href="/dashboard"><span class="bi bi-arrow-left"></span> Retour Tableau de bord</a>

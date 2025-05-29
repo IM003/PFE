@@ -34,8 +34,10 @@ def register():
             return redirect(url_for('routes.dashboard'))
     
 
-
     return render_template("register.html", user=current_user)
+
+
+
 
 @routes.route('/login', methods=['GET','POST'])
 def login():
@@ -85,32 +87,56 @@ def logout():
     logout_user()
     return redirect(url_for('routes.home'))
 
+
+
 @routes.route('/events/<int:id>', methods=['GET', 'POST'])
 @login_required
 def events(id):
     evenement = Evenement.query.get_or_404(id)
 
-    if evenement.user.id != current_user.id:
-        abort(403)
-
     if request.method == 'POST':
-        db.session.delete(evenement)
-        db.session.commit()
-        flash('Evenement supprimé avec success', category='success')
-        return redirect(url_for('routes.dashboard'))
+        
+        if 'add_participant' in request.form:
+            nom = request.form.get('nom')
+            email = request.form.get('email')
+            titre_article = request.form.get('titre_article')
+            new_participant = Participant(nom=nom, email=email, titre_article=titre_article, evenement_id=id)
+            db.session.add(new_participant)
+            
+            flash('Participant ajouté avec succès!', 'success')
+            db.session.commit()
+            return redirect(url_for('routes.events', id=id))
+        
+
+        elif 'delete_participant' in request.form:
+            participant_id = request.form.get('participant_id')
+            participant = Participant.query.get(participant_id)
+            if participant:
+                db.session.delete(participant)
+                flash('Participant supprimé avec succès!', 'success')
+                db.session.commit()
+                return redirect(url_for('routes.events', id=id))
+
+        elif 'delete_evenement' in request.form:
+            db.session.delete(evenement)
+            db.session.commit()
+            flash('Evenement supprimé avec success', category='success')
+            return redirect(url_for('routes.dashboard'))
+        
+
+    participants = Participant.query.filter_by(evenement_id=id).all()
     
     evenement.verified = True
     db.session.commit()
-    return render_template("events.html", user=current_user, evenement=evenement)
+    
+    return render_template("events.html",user=current_user,evenement=evenement,participants=participants)
+
     
 
 @routes.route('/edit_event/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_event(id):
     event = Evenement.query.get_or_404(id)
-    
-    if event.user_id != current_user.id:
-        abort(403)
     
     if request.method == 'POST':
         event.nom = request.form.get('nom')
@@ -125,6 +151,22 @@ def edit_event(id):
 
 
 
+
+@routes.route('/edit_participant/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_participant(id):
+    participant = Participant.query.get_or_404(id)
+    evenement = Evenement.query.get(participant.evenement_id)
+    
+    if request.method == 'POST':
+        participant.nom = request.form.get('nom')
+        participant.email = request.form.get('email')
+        participant.titre_article = request.form.get('titre_article')
+        db.session.commit()
+        flash('Participant modifié avec succès!', category='success')
+        return redirect(url_for('routes.events', id=evenement.id))
+    
+    return render_template('edit_participant.html', participant=participant, evenement=evenement,user=current_user)
 
 @routes.route('/certificate')
 def certificate():

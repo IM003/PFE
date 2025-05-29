@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Modifier Participant</h2>
+    
+    <form method="POST">
+
+        
+        <div class="mb-3">
+            <label class="form-label">Nom Complet</label>
+            <input type="text" class="form-control" name="nom" 
+                   value="{{ participant.nom }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" name="email" 
+                   value="{{ participant.email }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Titre Article</label>
+            <input type="text" class="form-control" name="titre_article" 
+                   value="{{ participant.titre_article }}" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{{ url_for('routes.events', id=evenement.id) }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}
