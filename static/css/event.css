@@ -34,11 +34,16 @@
 .event-card{
     width: 300px;
     height: 180px;
-    background: var(--primary-color);
+    background:var(--primary-color);
     padding: 6px;
     color: white;
     border-radius: 10px;
     margin: 24px;
+    transition: .5s;
+}
+
+.event-card:hover{
+    transform: scale(0.95);
 }
 
 .event-card .poster{
@@ -47,6 +52,7 @@
     background: var(--special-color);
     border-radius: 8px;
     cursor: pointer;
+    border: 1px solid rgba(40, 158, 255, 0.384);
 }
 
 .carde-body{
