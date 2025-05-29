@@ -7,7 +7,7 @@
 
     <article class="display">
         <section class="column-small page-content">
-            <h1>🖐Salut, <span>Ibrahim003</span></h1>
+            <h1>🖐Salut, <span>{{ user.nom }}</span></h1>
 
             <div class="stats">
                 <div class="stat-card" style="background: linear-gradient(35deg, blue, rgb(0, 247, 255));">
@@ -30,29 +30,25 @@
             </div>
 
             <div class="events">
-                <h2 id="titre">Mes événement</h2>
+                <h2 id="titre" style="color: #00297a;">Mes événements</h2>
 
-                <article class="row g-2 event-container">
+            <article class="row g-2 event-container">
 
+                    {% for evenement in user.evenements %}
                     <div class="col-3 event-card">
-                        <a href="/events"><div class="poster"></div></a>
+                        <a href="{{ url_for('routes.events', id=evenement.id) }}"><div class="poster"></div></a>
                         <div class="carde-body">
-                                <h5>Ma conférence</h5>
+                                <h5>{{ evenement.nom }}</h5>
                                 <item>
                                     <span class="bi bi-person-fill"></span>
                                     <p>7</p>
                                 </item>
-                
                         </div>
                     </div>
 
-
-
-
-
-
-
+                     {% endfor %}
             </article>
+                   
 
             </div>
         </section>
@@ -90,10 +86,10 @@
                         </div>
                         <div class="modal-body">
                             
-                            <form class="form-control needs-validation" novalidate>
+                            <form class="form-control needs-validation" method="POST" action="{{ url_for('routes.dashboard') }}" novalidate>
                                 
                                 <label for="validationCustom01" class="form-label">Nom de l'événement</label>
-                                <input type="text" class="form-control" id="validationCustom01" required>
+                                <input type="text" class="form-control" name="nom" id="validationCustom01" required>
                                 <div class="invalid-feedback">
                                     Entrer le nom de l'événement!
                                 </div>
@@ -101,7 +97,7 @@
                                 <br>
                             
                                 <label for="validationCustom02" class="form-label">Date début </label>
-                                <input type="text" class="form-control" id="validationCustom02" placeholder="01/01/2025" required>
+                                <input type="date" class="form-control" name="date_deb" id="validationCustom02"  required>
                                 <div class="invalid-feedback">
                                     Entrer la date de début!
                                 </div>
@@ -109,11 +105,14 @@
                                 <br>
                                 
                                 <label for="validationCustom02" class="form-label">Date fin (Optionnel)</label>
-                                <input type="text" class="form-control" id="validationCustom02" placeholder="03/01/2025">
+                                <input type="date" class="form-control" name="date_fin" id="validationCustom02"  required>
+                                <div class="invalid-feedback">
+                                    Entrer la date de début!
+                                </div>
                                 
                                 <br><br>
                                 <div class="col-12">
-                                <button class="btn btn-success" type="submit">Créer</button>
+                                <button class="btn btn-success" name="submit" type="submit">Créer</button>
                                 </div>
 
                             </form>

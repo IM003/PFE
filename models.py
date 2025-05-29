@@ -7,8 +7,8 @@ class User(db.Model, UserMixin):
     nom = db.Column(db.String(150))
     email = db.Column(db.String(150), unique=True)
     mdp = db.Column(db.String(150))
-    events = db.relationship('Evenement')
-    attests = db.relationship('Attestation')
+    evenements = db.relationship('Evenement', backref='user', lazy=True)
+    attestations = db.relationship('Attestation')
 
 class ModeleAttestation(db.Model):
     __tablename__ = 'modele_attestation'
@@ -25,7 +25,7 @@ class Evenement(db.Model):
     nom = db.Column(db.String(150), nullable=False)
     date_deb = db.Column(db.Date, nullable=False)
     date_fin = db.Column(db.Date)
-    modele_id = db.Column(db.Integer, db.ForeignKey('modele_attestation.id'))
+    modele_id = db.Column(db.Integer, db.ForeignKey('modele_attestation.id'), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class Participant(db.Model):

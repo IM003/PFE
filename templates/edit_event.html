@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block title %}{{ event.nom }}{% endblock %}
+
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Modifier l'événement</h2>
+    
+    <form method="POST" action="{{ url_for('routes.edit_event', id=event.id) }}">
+       
+        
+        <div class="mb-3">
+            <label for="nom" class="form-label">Nom de l'événement</label>
+            <input type="text" class="form-control" id="nom" name="nom" 
+                   value="{{ event.nom }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="date_deb" class="form-label">Date de début</label>
+            <input type="date" class="form-control" id="date_deb" name="date_deb" 
+                   value="{{ event.date_deb }}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="date_fin" class="form-label">Date de fin</label>
+            <input type="date" class="form-control" id="date_fin" name="date_fin" 
+                   value="{{ event.date_fin }}">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{{ url_for('routes.dashboard') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

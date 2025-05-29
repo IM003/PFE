@@ -30,8 +30,10 @@
 
 
 .events{
-    background: var(--primary-color);
-    margin-top: 135px;
+    background: var(--textField-color);
+    border: 1px solid var(--border-color);
+    margin-top: 95px;
+    margin-left: 35px;
     border-radius: 10px;
     padding: 15px;
 }
@@ -45,14 +47,16 @@
 
 .event-container{
     padding: 28px;
+    align-self: center;
+
 }
 
 .event-card{
     width: 300px;
     height: 180px;
-    background:var(--primary-color);
+    background: transparent;
     padding: 6px;
-    color: white;
+    color: var(--primary-color);
     border-radius: 10px;
     margin: 24px;
     transition: .5s;
@@ -68,7 +72,6 @@
     background: var(--special-color);
     border-radius: 8px;
     cursor: pointer;
-    border: 1px solid rgba(40, 158, 255, 0.384);
 }
 
 .carde-body{

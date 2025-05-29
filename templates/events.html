@@ -9,6 +9,8 @@
 
             <nav class="navbarrre">
 
+                
+
                 <label for="search"><h5>Rechercher par: </h5></label>
                 <input type="text" name="search" id="searchParticipant" class="form-control" placeholder="Id ou Nom du participant...">
                 
@@ -154,29 +156,40 @@
             <br>
 
             <div class="titre">
-                <h4>Ma conférence</h4>
+                <h4>{{ evenement.nom }}</h4>
             </div>
 
             <br>
 
             <div>
                 <p>date début</p>
-                <h4>01/01/2025</h4>
+                <h4>{{ evenement.date_deb }}</h4>
             </div>
 
             <br>
 
             <div>
                 <p>date fin</p>
-                <h4>01/01/2025</h4>
+                <h4>{{ evenement.date_fin }}</h4>
             </div>
 
             <br>
 
 
-            <button class="btn btn-primary">Modifier <span class="bi bi-pencil-square"></span></button>
+            <a href="{{ url_for('routes.edit_event', id=evenement.id) }}" class="btn btn-primary">Modifier <span class="bi bi-pencil-square"></span></a>
             <br>
-            <button class="btn btn-warning">Supprimer l'evenement<span class="bi bi-trash"></span></button>
+            
+
+            <form method="POST" action="{{ url_for('routes.events', id=evenement.id) }}">
+           
+            <button type="submit" class="btn btn-warning" 
+                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement?')">
+                Supprimer l'événement <span class="bi bi-trash"></span>
+            </button>
+          </form>
+
+            <br>
+            <a href="/dashboard"><span class="bi bi-arrow-left"></span> Retour Tableau de bord</a>
 
         </section> 
    
