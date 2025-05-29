@@ -226,14 +226,4 @@ html, body{
 }
 
 
-.events{
-    background: var(--primary-color);
-    margin-top: 135px;
-    border-radius: 10px;
-    padding: 15px;
-}
 
-.events #titre{
-    color: white;
-    margin-left:  34px;
-}
