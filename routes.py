@@ -3,6 +3,9 @@ from models import User, Evenement, Participant, Attestation, ModeleAttestation
 from __init__ import db 
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
+from werkzeug.utils import secure_filename
+import pandas as pd
+import os
 
 routes = Blueprint('routes', __name__)
 
@@ -171,4 +174,86 @@ def edit_participant(id):
 @routes.route('/certificate')
 def certificate():
     return render_template("certificate.html")
+
+
+
+
+
+# Importer les participants
+
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
+
+# Assurez-vous que le dossier existe
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@routes.route('/upload_participants/<int:event_id>', methods=['POST'])
+@login_required
+def upload_participants(event_id):
+    event = Evenement.query.get_or_404(event_id)
+    
+    if event.user_id != current_user.id:
+        abort(403)
+
+    if 'file' not in request.files:
+        flash('Aucun fichier sélectionné', 'error')
+        return redirect(url_for('routes.events', id=event_id))
+
+    file = request.files['file']
+    
+    if file.filename == '':
+        flash('Aucun fichier sélectionné', 'error')
+        return redirect(url_for('routes.events', id=event_id))
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        filepath = os.path.join(UPLOAD_FOLDER, filename)
+        file.save(filepath)
+
+        try:
+
+            # Lecture du fichier
+            if filename.endswith('.csv'):
+                df = pd.read_csv(filepath)
+            else:  # ficchier .xlsc
+                df = pd.read_excel(filepath)
+
+            # Vérification des colonnes requises
+            required_columns = {'nom', 'email', 'titre_article'}
+            if not required_columns.issubset(df.columns):
+                flash("Le fichier doit contenir les colonnes: 'nom', 'email', 'titre_article'", 'error')
+                return redirect(url_for('routes.events', id=event_id))
+
+            # Ajout des participants
+            count = 0
+            for _, row in df.iterrows():
+                participant = Participant(
+                    nom=row['nom'],
+                    email=row['email'],
+                    titre_article=row['titre_article'],
+                    evenement_id=event_id
+                )
+                db.session.add(participant)
+                count += 1
+
+            db.session.commit()
+            flash(f'{count} participants ajoutés avec succès!', 'success')
+        
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Erreur lors de l'import: {str(e)}", 'error')
+        
+        finally:
+            # Nettoyage du fichier temporaire
+            if os.path.exists(filepath):
+                os.remove(filepath)
+        
+        return redirect(url_for('routes.events', id=event_id))
+
+    flash('Type de fichier non autorisé. Utilisez CSV ou Excel', 'error')
+    return redirect(url_for('routes.events', id=event_id))
 

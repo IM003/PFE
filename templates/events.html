@@ -14,6 +14,39 @@
                 <label for="search"><h5>Rechercher par: </h5></label>
                 <input type="text" name="search" id="searchParticipant" class="form-control" placeholder="Id ou Nom du participant...">
                 
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uploadModal">
+                    <i class="bi bi-upload"></i> Importer 
+                </button>
+        
+                <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="uploadModalLabel">Importer des participants</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{{ url_for('routes.upload_participants', event_id=evenement.id) }}" enctype="multipart/form-data">
+                                  
+                                    
+                                    <div class="mb-3">
+                                        <label for="participantFile" class="form-label">Sélectionnez un fichier (CSV ou Excel)</label>
+                                        <input class="form-control" type="file" id="participantFile" name="file" accept=".csv,.xlsx" required>
+                                        <div class="form-text">
+                                            Le fichier doit contenir les colonnes: nom, email, titre_article
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                        <button type="submit" class="btn btn-primary">Importer</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Ajouter participant</button>
                 
                 <!-- Modal -->
