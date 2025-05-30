@@ -14,8 +14,8 @@ class ModeleAttestation(db.Model):
     __tablename__ = 'modele_attestation'
     id = db.Column(db.Integer, primary_key=True)
     nom_modele = db.Column(db.String(150))
-    chemin_logo = db.Column(db.String(350), nullable=False)
-    chemin_signature = db.Column(db.String(350), nullable=False)
+    chemin_pdf = db.Column(db.String(350), nullable=True)
+    chemin_png = db.Column(db.String(350), nullable=True)
     events = db.relationship('Evenement', backref='modele')
 
 
@@ -31,8 +31,8 @@ class Evenement(db.Model):
 class Participant(db.Model):
     __tablename__ = 'participant'
     id = db.Column(db.Integer, primary_key=True)
-    nom = db.Column(db.String(350), nullable=False) 
-    email = db.Column(db.String(150), nullable=False) 
+    nom = db.Column(db.String(350), nullable=False, index=True) 
+    email = db.Column(db.String(150), nullable=False, index=True) 
     titre_article = db.Column(db.String(350), nullable=False) 
     evenement_id = db.Column(db.Integer, db.ForeignKey('evenement.id'), nullable=False)
 

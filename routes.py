@@ -6,6 +6,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 import pandas as pd
 import os
+from sqlalchemy import or_ 
 
 routes = Blueprint('routes', __name__)
 
@@ -67,6 +68,8 @@ def login():
 @routes.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
+
+
     if request.method == 'POST':
         nom = request.form.get('nom')
         date_deb = request.form.get('date_deb')
@@ -78,7 +81,32 @@ def dashboard():
         flash('Evénement crée avec succès !', category='success')
         return redirect(url_for('routes.dashboard'))
 
-    return render_template("dashboard.html", user=current_user)
+    total_evenement = Evenement.query.filter_by(user_id=current_user.id).count()
+
+    participant_evenement = db.session.query(
+        Evenement,
+        db.func.count(Participant.id).label('participant_count')
+        ).outerjoin(Participant, Participant.evenement_id == Evenement.id).filter(
+            Evenement.user_id==current_user.id).group_by(
+                Evenement.id
+            ).all()
+    
+    total_participants = db.session.query(Participant).join(
+        Evenement,
+        Participant.evenement_id == Evenement.id
+    ).filter(
+        Evenement.user_id == current_user.id
+    ).count()
+        
+
+    total_attestations = Attestation.query.filter_by(user_id=current_user.id).count()
+
+    return render_template("dashboard.html",
+                        user=current_user, 
+                        total_evenement=total_evenement, 
+                        total_participants=total_participants, 
+                        total_attestations=total_attestations,
+                        participant_evenement=participant_evenement)
 
 
    
@@ -128,11 +156,12 @@ def events(id):
         
 
     participants = Participant.query.filter_by(evenement_id=id).all()
+    participant_count = Participant.query.filter_by(evenement_id=id).count()
     
     evenement.verified = True
     db.session.commit()
     
-    return render_template("events.html",user=current_user,evenement=evenement,participants=participants)
+    return render_template("events.html",user=current_user,evenement=evenement,participants=participants, participant_count=participant_count)
 
     
 
@@ -181,6 +210,11 @@ def certificate():
 
 # Importer les participants
 
+
+
+
+
+
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'csv', 'xlsx'}
 
@@ -196,8 +230,6 @@ def allowed_file(filename):
 def upload_participants(event_id):
     event = Evenement.query.get_or_404(event_id)
     
-    if event.user_id != current_user.id:
-        abort(403)
 
     if 'file' not in request.files:
         flash('Aucun fichier sélectionné', 'error')
@@ -257,3 +289,53 @@ def upload_participants(event_id):
     flash('Type de fichier non autorisé. Utilisez CSV ou Excel', 'error')
     return redirect(url_for('routes.events', id=event_id))
 
+
+
+
+
+# Recherche de participants par Nom et ID 
+
+
+
+
+@routes.route('/search_participant/<int:event_id>', methods=['GET'])
+@login_required
+def search_participant(event_id):
+    try:
+        search_term = request.args.get('q', '').strip()
+        if not search_term:
+            return jsonify([])
+
+        # Nouvelle requête plus robuste
+        query = Participant.query.filter(
+            Participant.evenement_id == event_id,
+            or_(
+                Participant.nom.ilike(f'%{search_term}%'),
+                Participant.email.ilike(f'%{search_term}%'),
+                Participant.id == search_term if search_term.isdigit() else None
+            )
+        ).limit(20)
+
+        results = query.all()
+        return jsonify([{
+            'id': p.id,
+            'nom': p.nom,
+            'email': p.email,
+            'titre_article': p.titre_article
+        } for p in results])
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+
+
+#             GENERATE CERTIFICAT
+
+
+@routes.route('/generateCertificat/<int:id>', methods=['GET', 'POST'])
+@login_required
+def generateCertificat(id):
+    evenement = Evenement.query.get(id)
+
+    return render_template("generateCertificat.html", user=current_user, evenement=evenement)

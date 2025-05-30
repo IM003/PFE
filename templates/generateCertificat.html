@@ -1,0 +1,65 @@
+{% extends "base.html" %} {% block title %} Generer mes attestations {% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-4">
+    <h2>Générer les attestations </h2>
+    <form method="POST">
+
+        <br>
+        <h5>Choisissez un modèle</h5>
+        <br>
+
+        <div class="mb-4 d-flex">
+            <div class="form-check d-block">
+                <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1" checked>
+                <label class="form-check-label" for="radioDefault1">
+                    <img src="{{url_for('static', filename="./image/templates/model.png")}}" style="width: 200px;" alt="img-template">
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2" >
+                <label class="form-check-label" for="radioDefault2">
+                    <img src="{{url_for('static', filename="./image/templates/model.png")}}" style="width: 200px;" alt="img-template">
+                </label>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault3" >
+                <label class="form-check-label" for="radioDefault3">
+                    <img src="{{url_for('static', filename="./image/templates/model.png")}}" style="width: 200px;" alt="img-template">
+                </label>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <br>
+            <h5 for="formFile" class="form-label">Importer votre Signature</h5>
+            <br>
+            <input class="form-control" type="file" id="formFile" required>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <br>
+            <h5 for="formFile2" class="form-label">Importer votre Logo</h5>
+            <br>
+            <input class="form-control" type="file" id="formFile2" required>
+            </div>
+        </div>
+        
+
+        <div class="mb-4">
+            <label for="" class="form-label">Date sur attestation</label>
+            <input type="date" class="form-control" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Générer maintenant </button>
+        <a href="{{ url_for('routes.events', id=evenement.id) }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+
+
+{% endblock %}

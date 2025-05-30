@@ -11,25 +11,25 @@
 
             <div class="stats">
                 <div class="stat-card" style="background: linear-gradient(35deg, blue, rgb(0, 247, 255));">
-                    <h3><span>4</span> <span class="bi bi-grid"></span></h3>
+                    <h3><span>{{ total_evenement }}</span> <span class="bi bi-grid"></span></h3>
                     <p>Evenements crées</p>
                 </div>
 
                 <div class="stat-card" style=" background: linear-gradient(35deg, rgb(255, 60, 0), rgb(253, 186, 61));">
-                    <h3><span>18</span> <span class="bi bi-people"></span></h3>
+                    <h3><span>{{ total_participants }}</span> <span class="bi bi-people"></span></h3>
                     <p>Participants ajoutés</p>
                 </div>
 
                 <div class="stat-card" style="    background: linear-gradient(35deg, rgb(71, 0, 151), rgb(202, 0, 209));">
                     <h3>
-                        <span>15</span>
+                        <span>{{ total_attestations }}</span>
                         <svg height="38px" viewBox="0 0 15 15" width="38px" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 14.5H9C9 14.6894 9.107 14.8625 9.27639 14.9472C9.44579 15.0319 9.64849 15.0136 9.8 14.9L9.5 14.5ZM11.5 13L11.8 12.6C11.6222 12.4667 11.3778 12.4667 11.2 12.6L11.5 13ZM13.5 14.5L13.2 14.9C13.3515 15.0136 13.5542 15.0319 13.7236 14.9472C13.893 14.8625 14 14.6894 14 14.5H13.5ZM11.5 11C10.1193 11 9 9.88071 9 8.5H8C8 10.433 9.567 12 11.5 12V11ZM14 8.5C14 9.88071 12.8807 11 11.5 11V12C13.433 12 15 10.433 15 8.5H14ZM11.5 6C12.8807 6 14 7.11929 14 8.5H15C15 6.567 13.433 5 11.5 5V6ZM11.5 5C9.567 5 8 6.567 8 8.5H9C9 7.11929 10.1193 6 11.5 6V5ZM9 10.5V14.5H10V10.5H9ZM9.8 14.9L11.8 13.4L11.2 12.6L9.2 14.1L9.8 14.9ZM11.2 13.4L13.2 14.9L13.8 14.1L11.8 12.6L11.2 13.4ZM14 14.5V10.5H13V14.5H14ZM15 5V1.5H14V5H15ZM13.5 0H1.5V1H13.5V0ZM0 1.5V13.5H1V1.5H0ZM1.5 15H8V14H1.5V15ZM0 13.5C0 14.3284 0.671573 15 1.5 15V14C1.22386 14 1 13.7761 1 13.5H0ZM1.5 0C0.671574 0 0 0.671573 0 1.5H1C1 1.22386 1.22386 1 1.5 1V0ZM15 1.5C15 0.671573 14.3284 0 13.5 0V1C13.7761 1 14 1.22386 14 1.5H15ZM3 5H8V4H3V5ZM3 8H6V7H3V8Z"/></svg>
                     </h3>
                     <p>Attestations générées</p>
                 </div>
             </div>
-
-            <div class="events">
+            
+        <div class="events">
                 <h2 id="titre" style="color: #00297a;">Mes événements</h2>
 
             <article class="row g-2 event-container">
@@ -41,7 +41,7 @@
                                 <h5>{{ evenement.nom }}</h5>
                                 <item>
                                     <span class="bi bi-person-fill"></span>
-                                    <p>7</p>
+                                    <p>{{ evenement.participant_evenement }}</p>
                                 </item>
                         </div>
                     </div>
@@ -50,7 +50,10 @@
             </article>
                    
 
-            </div>
+            </div> 
+
+
+
         </section>
 
         <section class="column-large page-navbar">
@@ -76,7 +79,7 @@
             <article class="btn-group" style="margin: 8px 20px 45px 20px;">
 
                 <button type="button" class="butn create-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Créer un événement <span class="bi bi-plus"></span></button>
-                <!-- Modal -->
+                
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog">
                     <div class="modal-content">
