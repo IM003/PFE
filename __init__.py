@@ -8,7 +8,9 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'jgkfubfeu1278KBQAnzdn'
-    app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:azertyuiop@localhost:5432/opencertdb'
+    app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://postgres:azertyuiop@localhost:5432/opencertdb4'
+    app.config['UPLOAD_FOLDER'] = 'static/uploads'
+
     db.init_app(app)
 
     from routes import routes

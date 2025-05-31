@@ -10,14 +10,6 @@ class User(db.Model, UserMixin):
     evenements = db.relationship('Evenement', backref='user', lazy=True)
     attestations = db.relationship('Attestation')
 
-class ModeleAttestation(db.Model):
-    __tablename__ = 'modele_attestation'
-    id = db.Column(db.Integer, primary_key=True)
-    nom_modele = db.Column(db.String(150))
-    chemin_pdf = db.Column(db.String(350), nullable=True)
-    chemin_png = db.Column(db.String(350), nullable=True)
-    events = db.relationship('Evenement', backref='modele')
-
 
 class Evenement(db.Model):
     __tablename__ = 'evenement'
@@ -29,6 +21,7 @@ class Evenement(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 class Participant(db.Model):
+
     __tablename__ = 'participant'
     id = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(350), nullable=False, index=True) 
@@ -36,11 +29,55 @@ class Participant(db.Model):
     titre_article = db.Column(db.String(350), nullable=False) 
     evenement_id = db.Column(db.Integer, db.ForeignKey('evenement.id'), nullable=False)
 
+
 class Attestation(db.Model):
+
     __tablename__ = 'attestation'
     id = db.Column(db.Integer, primary_key=True) 
-    chemin_pdf = db.Column(db.String(350), nullable=False)
-    chemin_png = db.Column(db.String(350)) 
+    chemin_pdf = db.Column(db.String(350))
+    chemin_png = db.Column(db.String(350))
     date_generation = db.Column(db.Date)
-    participant_id = db.Column(db.Integer, db.ForeignKey('participant.id'), nullable=False)
+    evenement_id = db.Column(db.Integer, db.ForeignKey('evenement.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    participant_id = db.Column(db.Integer, db.ForeignKey('participant.id'))
+
+
+
+
+
+
+
+#Table Pour Admin
+class ModeleAttestation(db.Model):
+
+    id = db.Column(db.Integer, primary_key=True)
+    template_path = db.Column(db.String, nullable=False)
+
+    # Pour nom
+    fontname_nom = db.Column(db.String, default='Helvetica')
+    fontsize_nom = db.Column(db.Integer, default=12)
+    fontcolor_nom = db.Column(db.String, default='#000000')
+    pos_nom_x = db.Column(db.Float, nullable=False)
+    pos_nom_y = db.Column(db.Float, nullable=False)
+    
+    # Pour titre_article
+    
+    fontname_titre = db.Column(db.String, default='Helvetica')
+    fontsize_titre = db.Column(db.Integer, default=12)
+    fontcolor_titre = db.Column(db.String, default='#000000')
+    pos_titre_x = db.Column(db.Float, nullable=False)
+    pos_titre_y = db.Column(db.Float, nullable=False)
+   
+    # Pour date
+    fontname_date = db.Column(db.String, default='Helvetica')
+    fontsize_date = db.Column(db.Integer, default=12)
+    fontcolor_date = db.Column(db.String, default='#000000')
+    pos_date_x = db.Column(db.Float, nullable=False)
+    pos_date_y = db.Column(db.Float, nullable=False)
+   
+    # Positions logo et signature
+    pos_logo_x = db.Column(db.Float, nullable=False)
+    pos_logo_y = db.Column(db.Float, nullable=False)
+    pos_signature_x = db.Column(db.Float, nullable=False)
+    pos_signature_y = db.Column(db.Float, nullable=False)
+

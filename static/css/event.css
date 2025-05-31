@@ -24,6 +24,41 @@
 
 
 
+/* event navbarre  */
+
+.event-menu ul{
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+}
+
+.event-menu ul li{
+    padding: 8px 12px;
+    margin: 5px 0;
+ 
+}
+
+
+.event-menu ul li a{
+    padding: 8px 20px 8px 6px;
+    border: none;
+    text-decoration: none;
+    font-size: 18px;
+    color: var(--secondary-color);  
+}
+
+.event-menu ul li a:hover{
+    color: #2557bb;
+}
+
+
+
+.event-menu ul li a svg{
+    fill:var(--secondary-color);
+    margin-right: 6px;
+}
+
+
 
 /*   evenements   */
 
