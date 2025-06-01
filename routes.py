@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for, send_file, jsonify
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from models import User, Evenement, Participant, Attestation, ModeleAttestation
 from __init__ import db 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -6,8 +6,6 @@ from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
 import pandas as pd
 import os
-from sqlalchemy import or_ 
-from flask_sqlalchemy import SQLAlchemy
 from pdf2image import convert_from_path
 import io
 from PyPDF2 import PdfWriter, PdfReader
@@ -17,7 +15,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.colors import HexColor
 from datetime import datetime
-import zipfile
+import shutil
 
 routes = Blueprint('routes', __name__)
 
@@ -329,7 +327,17 @@ def admin_modele_attestation():
         path = os.path.join('static', 'templates', filename)
         file.save(path)
 
+        image_file = request.files.get('template_png')
+        image_path = None
+        if image_file:
+            image_filename = secure_filename(image_file.filename)
+            image_path = os.path.join('static', 'templates', image_filename)
+            image_file.save(image_path)
+
+            image_path = image_path.replace("\\", "/")
+
         modele = ModeleAttestation(
+            template_png=image_path, 
             template_path=path,
             fontname_nom=request.form.get('fontname_nom'),
             fontsize_nom=int(request.form.get('fontsize_nom')),
@@ -441,7 +449,7 @@ def generate(event_id):
             png_output_folder = os.path.join(output_folder, "images")
             os.makedirs(png_output_folder, exist_ok=True)
 
-            images = convert_from_path(relative_path, dpi=200)
+            images = convert_from_path(absolute_path, dpi=200)
 
             image_filename = cert_filename.replace(".pdf", ".png")
             image_path = os.path.join(png_output_folder, image_filename)
@@ -468,6 +476,8 @@ def generate(event_id):
     return render_template('generateCertificat.html', modeles=modeles, evenement=event)
 
 
+
+
 @routes.route('/certificate_gallery/<int:event_id>')
 @login_required
 def certificate_gallery(event_id):
@@ -476,4 +486,39 @@ def certificate_gallery(event_id):
 
     attestations = Attestation.query.filter_by(evenement_id=event_id).all()
     return render_template('certificate.html', attestations=attestations, evenement=evenement)
+
+
+
+#      SUPPRIMER LES ATTESTATIONS 
+
+
+def suppr_attest_par_evenement(event_id):
+    attestations = Attestation.query.filter_by(evenement_id=event_id).all()
+
+    for att in attestations:
+     
+        pdf_path = os.path.join("static", att.chemin_pdf)
+        if os.path.exists(pdf_path):
+            os.remove(pdf_path)
+
+        if att.chemin_png:
+            png_path = os.path.join("static", att.chemin_png)
+            if os.path.exists(png_path):
+                os.remove(png_path)
+
+    Attestation.query.filter_by(evenement_id=event_id).delete()
+    db.session.commit()
+
+
+    event_folder = os.path.join("static", "attestations", f"event_{event_id}")
+    if os.path.exists(event_folder):
+        shutil.rmtree(event_folder)
+
+
+@routes.route('/supprimer_attestations/<int:event_id>', methods=['POST'])
+@login_required
+def suppr_attest(event_id):
+    suppr_attest_par_evenement(event_id)
+    flash(f"Les attestations ont été supprimées.", category="success")
+    return redirect(url_for('routes.events', id=event_id))
 

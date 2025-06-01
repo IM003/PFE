@@ -32,7 +32,11 @@
         <div class="events">
                 <h2 id="titre" style="color: #00297a;">Mes événements</h2>
 
+
+
             <article class="row g-2 event-container">
+
+            {% if user.evenements %}
 
                     {% for evenement in user.evenements %}
                     <div class="col-3 event-card">
@@ -46,8 +50,19 @@
                         </div>
                     </div>
 
-                     {% endfor %}
+                    {% endfor %}
+
+            {% else %}
+            <center>    
+                <span class="bi bi-grid" style="font-size: 80px; margin-bottom:8px;"></span>
+                <br>
+                <h4>Aucun événement crée !</h4>
+            </center>
+            {% endif %}
+
             </article>
+
+
                    
 
             </div> 

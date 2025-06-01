@@ -14,7 +14,7 @@
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="radioDefault" id="radio{{ modele.id }}" value="{{ modele.id }}" {% if loop.first %}checked{% endif %}>
                     <label class="form-check-label" for="radio{{ modele.id }}">
-                    <iframe src="{{ url_for('static', filename=modele.template_path.replace('static/', '')) }}" width="100%" height="200" style="border: 1px solid #ccc;"></iframe>
+                    <img src="{{ url_for('static', filename=modele.template_png.replace('static/', '')) }}"  alt="aperçu" style="width: 200px; border:1px solid blue;">
                     </label>
                 </div>
             </div>

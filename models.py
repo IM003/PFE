@@ -19,6 +19,7 @@ class Evenement(db.Model):
     date_fin = db.Column(db.Date)
     modele_id = db.Column(db.Integer, db.ForeignKey('modele_attestation.id'), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    participants = db.relationship("Participant", backref="evenement", cascade="all, delete-orphan")
 
 class Participant(db.Model):
 
@@ -28,6 +29,7 @@ class Participant(db.Model):
     email = db.Column(db.String(150), nullable=False, index=True) 
     titre_article = db.Column(db.String(350), nullable=False) 
     evenement_id = db.Column(db.Integer, db.ForeignKey('evenement.id'), nullable=False)
+    attestations = db.relationship("Attestation", backref="participant", cascade="all, delete-orphan")
 
 
 class Attestation(db.Model):
@@ -37,11 +39,9 @@ class Attestation(db.Model):
     chemin_pdf = db.Column(db.String(350))
     chemin_png = db.Column(db.String(350))
     date_generation = db.Column(db.Date)
-    evenement_id = db.Column(db.Integer, db.ForeignKey('evenement.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    participant_id = db.Column(db.Integer, db.ForeignKey('participant.id'))
-
-
+    participant_id = db.Column(db.Integer, db.ForeignKey('participant.id', ondelete='CASCADE'))
+    evenement_id = db.Column(db.Integer, db.ForeignKey('evenement.id', ondelete='CASCADE'))
 
 
 
@@ -52,6 +52,7 @@ class ModeleAttestation(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     template_path = db.Column(db.String, nullable=False)
+    template_png = db.Column(db.String, nullable=False)
 
     # Pour nom
     fontname_nom = db.Column(db.String, default='Helvetica')

@@ -1,0 +1,38 @@
+INFORMATION A REMPLIR MODELE D'ATTESTATION 
+
+       template_gold 
+
+       NOM
+
+police_nom: Brittany
+taille_nom: 58
+color_nom: #343434
+position_x: 280
+position_y: 295
+
+        TITRE
+
+police_nom: Radley
+taille_nom: 16
+color_nom:  #000000
+position_x: 300
+position_y: 185
+
+        DATE
+
+police_nom: Radley
+taille_nom: 16
+color_nom: #334166
+position_x: 200
+position_y: 126
+
+        LOGO
+    
+position_x: 400
+position_y: 540
+
+        SIGNATURE
+
+position_x: 560
+position_y: 126
+
