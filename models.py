@@ -15,6 +15,7 @@ class Evenement(db.Model):
     __tablename__ = 'evenement'
     id = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String(150), nullable=False)
+    lieu = db.Column(db.String(250), nullable=False)
     date_deb = db.Column(db.Date, nullable=False)
     date_fin = db.Column(db.Date)
     modele_id = db.Column(db.Integer, db.ForeignKey('modele_attestation.id'), nullable=True)
@@ -68,8 +69,32 @@ class ModeleAttestation(db.Model):
     fontcolor_titre = db.Column(db.String, default='#000000')
     pos_titre_x = db.Column(db.Float, nullable=False)
     pos_titre_y = db.Column(db.Float, nullable=False)
+
+    
+    # Nom Evenement
+    fontname_nom_event = db.Column(db.String, default='Helvetica')
+    fontsize_nom_event = db.Column(db.Integer, default=12)
+    fontcolor_nom_event = db.Column(db.String, default='#000000')
+    pos_event_nom_x = db.Column(db.Float, nullable=False)
+    pos_event_nom_y = db.Column(db.Float, nullable=False)
+
+
+   # Lieu Evenement
+    fontname_lieu = db.Column(db.String, default='Helvetica')
+    fontsize_lieu = db.Column(db.Integer, default=12)
+    fontcolor_lieu = db.Column(db.String, default='#000000')
+    pos_event_lieu_x = db.Column(db.Float, nullable=False)
+    pos_event_lieu_y = db.Column(db.Float, nullable=False)
+
+
+    # Pour date deb-fin Evenement
+    fontname_dates = db.Column(db.String, default='Helvetica')
+    fontsize_dates = db.Column(db.Integer, default=12)
+    fontcolor_dates = db.Column(db.String, default='#000000')
+    pos_event_dates_x = db.Column(db.Float, nullable=False)
+    pos_event_dates_y = db.Column(db.Float, nullable=False)
    
-    # Pour date
+    # Pour date - emission
     fontname_date = db.Column(db.String, default='Helvetica')
     fontsize_date = db.Column(db.Integer, default=12)
     fontcolor_date = db.Column(db.String, default='#000000')

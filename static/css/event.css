@@ -65,7 +65,7 @@
 
 
 .events{
-    background: var(--textField-color);
+    background: transparent;
     border: 1px solid var(--border-color);
     margin-top: 95px;
     margin-left: 35px;

@@ -39,6 +39,22 @@
         <button type="submit" class="btn btn-primary">Générer maintenant</button>
         <a href="{{ url_for('routes.events', id=evenement.id) }}" class="btn btn-secondary">Annuler</a>
     </form>
+
+    <!-- Loader -->
+        <div id="loader" style="display: none; text-align: center; margin-top: 20px;">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p>Génération en cours, veuillez patienter...</p>
+        </div>
 </div>
 
+<script>
+    document.querySelector('form').addEventListener('submit', function() {
+        document.getElementById('loader').style.display = 'block';
+        const submitButton = this.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.textContent = 'Veuillez patienter...';
+    });
+</script>
 {% endblock %}

@@ -54,9 +54,9 @@
 
             {% else %}
             <center>    
-                <span class="bi bi-grid" style="font-size: 80px; margin-bottom:8px;"></span>
+                <span class="bi bi-grid" style="font-size: 80px; margin-bottom:8px; color:#00297a;"></span>
                 <br>
-                <h4>Aucun événement crée !</h4>
+                <h4 style="color: #00297a;">Aucun événement crée !</h4>
             </center>
             {% endif %}
 
@@ -83,6 +83,14 @@
 
             <article class="btn-group" style="margin: 8px 20px 45px 20px;">
 
+                <button class="button" onclick="alert('Arrive Bientot !')">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
+                    <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
+                </svg>
+                Unlock Pro
+                </button>
+
+                <br>
                 <button type="button" class="butn create-btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Créer un événement <span class="bi bi-plus"></span></button>
                 
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -100,6 +108,14 @@
                                 <input type="text" class="form-control" name="nom" id="validationCustom01" required>
                                 <div class="invalid-feedback">
                                     Entrer le nom de l'événement!
+                                </div>
+                                
+                                <br>
+
+                                <label for="validationCustom01" class="form-label">Lieu</label>
+                                <input type="text" class="form-control" name="lieu" id="validationCustom01" required>
+                                <div class="invalid-feedback">
+                                    Entrer le lieu de l'événement!
                                 </div>
                                 
                                 <br>

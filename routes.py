@@ -10,10 +10,11 @@ from pdf2image import convert_from_path
 import io
 from PyPDF2 import PdfWriter, PdfReader
 from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
+from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.lib.colors import HexColor
+from reportlab.pdfbase.pdfmetrics import stringWidth
 from datetime import datetime
 import shutil
 
@@ -82,10 +83,11 @@ def dashboard():
 
     if request.method == 'POST':
         nom = request.form.get('nom')
+        lieu = request.form.get('lieu')
         date_deb = request.form.get('date_deb')
         date_fin = request.form.get('date_fin')
 
-        new_event = Evenement(nom=nom, date_deb=date_deb, date_fin=date_fin, user_id=current_user.id)
+        new_event = Evenement(nom=nom, lieu=lieu, date_deb=date_deb, date_fin=date_fin, user_id=current_user.id)
         db.session.add(new_event)
         db.session.commit()
         flash('Evénement crée avec succès !', category='success')
@@ -339,23 +341,46 @@ def admin_modele_attestation():
         modele = ModeleAttestation(
             template_png=image_path, 
             template_path=path,
+
             fontname_nom=request.form.get('fontname_nom'),
             fontsize_nom=int(request.form.get('fontsize_nom')),
             fontcolor_nom=request.form.get('fontcolor_nom'),
             pos_nom_x=float(request.form.get('pos_nom_x')),
             pos_nom_y=float(request.form.get('pos_nom_y')),
+
             fontname_titre=request.form.get('fontname_titre'),
             fontsize_titre=int(request.form.get('fontsize_titre')),
             fontcolor_titre=request.form.get('fontcolor_titre'),
             pos_titre_x=float(request.form.get('pos_titre_x')),
             pos_titre_y=float(request.form.get('pos_titre_y')),
+
+            fontname_nom_event=request.form.get('fontname_nom_event'),
+            fontsize_nom_event=int(request.form.get('fontsize_nom_event')),
+            fontcolor_nom_event=request.form.get('fontcolor_nom_event'),
+            pos_event_nom_x=float(request.form.get('pos_event_nom_x')),
+            pos_event_nom_y=float(request.form.get('pos_event_nom_y')),
+
+            fontname_lieu=request.form.get('fontname_lieu'),
+            fontsize_lieu=int(request.form.get('fontsize_lieu')),
+            fontcolor_lieu=request.form.get('fontcolor_lieu'),
+            pos_event_lieu_x=float(request.form.get('pos_event_lieu_x')),
+            pos_event_lieu_y=float(request.form.get('pos_event_lieu_y')),
+
+            fontname_dates=request.form.get('fontname_dates'),
+            fontsize_dates=int(request.form.get('fontsize_dates')),
+            fontcolor_dates=request.form.get('fontcolor_dates'),
+            pos_event_dates_x=float(request.form.get('pos_event_dates_x')),
+            pos_event_dates_y=float(request.form.get('pos_event_dates_y')),
+
             fontname_date=request.form.get('fontname_date'),
             fontsize_date=int(request.form.get('fontsize_date')),
             fontcolor_date=request.form.get('fontcolor_date'),
             pos_date_x=float(request.form.get('pos_date_x')),
             pos_date_y=float(request.form.get('pos_date_y')),
+
             pos_logo_x=float(request.form.get('pos_logo_x')),
             pos_logo_y=float(request.form.get('pos_logo_y')),
+
             pos_signature_x=float(request.form.get('pos_signature_x')),
             pos_signature_y=float(request.form.get('pos_signature_y'))
         )
@@ -395,30 +420,99 @@ def generate(event_id):
         output_folder = os.path.join('static', 'attestations', f"event_{event_id}")
         os.makedirs(output_folder, exist_ok=True)
 
+
+        # centrer les textes
+        def draw_centered_text(can, text, font_name, font_size, y, page_width, hex_color):
+            width = stringWidth(text, font_name, font_size)
+            can.setFont(font_name, font_size)
+            can.setFillColor(HexColor(hex_color))
+            can.drawString((page_width - width) / 2, y, text)
+
+
+
         for p in participants:
             packet = io.BytesIO()
-            can = canvas.Canvas(packet, pagesize=letter)
+
+            from reportlab.lib.units import mm
+            from reportlab.lib.pagesizes import A4, landscape
+
+            custom_size = landscape(A4)
+
+            can = canvas.Canvas(packet, pagesize=custom_size)
+            page_width, _ = custom_size 
+
+
 
             # Nom
             pdfmetrics.registerFont(TTFont(modele.fontname_nom, f"static/fonts/{modele.fontname_nom}.ttf"))
-            can.setFont(modele.fontname_nom, modele.fontsize_nom)
-            can.setFillColor(HexColor(modele.fontcolor_nom))
-            can.drawString(modele.pos_nom_x, modele.pos_nom_y, p.nom)
+            draw_centered_text(can, p.nom, modele.fontname_nom, modele.fontsize_nom, modele.pos_nom_y, page_width, modele.fontcolor_nom)
+
+
 
             # Titre article
             pdfmetrics.registerFont(TTFont(modele.fontname_titre, f"static/fonts/{modele.fontname_titre}.ttf"))
             can.setFont(modele.fontname_titre, modele.fontsize_titre)
             can.setFillColor(HexColor(modele.fontcolor_titre))
-            can.drawString(modele.pos_titre_x, modele.pos_titre_y, p.titre_article)
+            # texte commentaire titre article
+            text_obj = can.beginText()
+            text_obj.setFont(modele.fontname_titre, modele.fontsize_titre)
+            text_obj.setFillColor(HexColor(modele.fontcolor_titre))
+            text_obj.setLeading(19)
 
-            # Date
+            max_width = 400
+            center_x = modele.pos_titre_x + (max_width / 2) 
+
+            words = p.titre_article.split()
+            line = ""
+            lines = []
+
+            for word in words:
+                test_line = f"{line} {word}".strip()
+                if stringWidth(test_line, modele.fontname_titre, modele.fontsize_titre) <= max_width:
+                    line = test_line
+                else:
+                    lines.append(line)
+                    line = word
+            if line:
+                lines.append(line)
+
+            y = modele.pos_titre_y
+            for line in lines:
+                line_width = stringWidth(line, modele.fontname_titre, modele.fontsize_titre)
+                text_obj.setTextOrigin(center_x - (line_width / 2), y)
+                text_obj.textLine(line)
+                y -= 19
+
+            can.drawText(text_obj)
+
+
+
+            # Nom de l'evenement
+            pdfmetrics.registerFont(TTFont(modele.fontname_nom_event, f"static/fonts/{modele.fontname_nom_event}.ttf"))
+            draw_centered_text(can, event.nom, modele.fontname_nom_event, modele.fontsize_nom_event, modele.pos_event_nom_y, page_width, modele.fontcolor_nom_event)
+
+
+
+            #Date deb-fin Evenement 
+            pdfmetrics.registerFont(TTFont(modele.fontname_dates, f"static/fonts/{modele.fontname_dates}.ttf"))
+            date_range = f"{event.date_deb.strftime('%d/%m/%Y')} - {event.date_fin.strftime('%d/%m/%Y')}"
+            draw_centered_text(can, date_range, modele.fontname_dates, modele.fontsize_dates, modele.pos_event_dates_y, page_width, modele.fontcolor_dates)
+
+
+            # Date emission
             pdfmetrics.registerFont(TTFont(modele.fontname_date, f"static/fonts/{modele.fontname_date}.ttf"))
             can.setFont(modele.fontname_date, modele.fontsize_date)
             can.setFillColor(HexColor(modele.fontcolor_date))
             can.drawString(modele.pos_date_x, modele.pos_date_y, date_attestation)
 
+
+            # Lieu
+            pdfmetrics.registerFont(TTFont(modele.fontname_lieu, f"static/fonts/{modele.fontname_lieu}.ttf"))
+            draw_centered_text(can, event.lieu, modele.fontname_lieu, modele.fontsize_lieu, modele.pos_event_lieu_y, page_width, modele.fontcolor_lieu)
+
+
             # Logo et signature
-            can.drawImage(logo_path, modele.pos_logo_x, modele.pos_logo_y, width=50, height=50)
+            can.drawImage(logo_path, modele.pos_logo_x, modele.pos_logo_y, width=60, height=60)
             can.drawImage(signature_path, modele.pos_signature_x, modele.pos_signature_y, width=70, height=30)
 
             can.save()
@@ -435,7 +529,7 @@ def generate(event_id):
         
             cert_filename = f"{p.nom.replace(' ', '_')}.pdf"
 
-           
+            # trouver le chemin du modele 
             relative_path = os.path.join("attestations", f"event_{event_id}", cert_filename)
             relative_path = relative_path.replace("\\", "/")
            
@@ -457,6 +551,7 @@ def generate(event_id):
 
             image_path = image_path.replace("\\", "/")
 
+            #ajouter l'asttestation dans la bd
             attestation = Attestation(
                 participant_id=p.id,
                 evenement_id=event_id,
@@ -477,6 +572,7 @@ def generate(event_id):
 
 
 
+# Afficher les attestation generer pour previsuaiser 
 
 @routes.route('/certificate_gallery/<int:event_id>')
 @login_required
