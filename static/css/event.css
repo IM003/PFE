@@ -26,38 +26,19 @@
 
 /* event navbarre  */
 
-.event-menu ul{
-    min-height: 100px;
-    display: flex;
-    flex-direction: column;
-}
-
-.event-menu ul li{
-    padding: 8px 12px;
-    margin: 5px 0;
- 
-}
 
 
-.event-menu ul li a{
-    padding: 8px 20px 8px 6px;
+.event-menu .ctrl-button a{
     border: none;
-    text-decoration: none;
+    padding: 24px 50px;
     font-size: 18px;
+    text-decoration: none;
     color: var(--secondary-color);  
 }
 
-.event-menu ul li a:hover{
-    color: #2557bb;
+.event-menu .ctrl-button a:hover{
+    color: white;
 }
-
-
-
-.event-menu ul li a svg{
-    fill:var(--secondary-color);
-    margin-right: 6px;
-}
-
 
 
 /*   evenements   */
@@ -66,9 +47,9 @@
 
 .events{
     background: transparent;
-    border: 1px solid var(--border-color);
-    margin-top: 95px;
-    margin-left: 35px;
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--tertiary-color);
+    margin-top: 45px;
     border-radius: 10px;
     padding: 15px;
 }
@@ -89,7 +70,6 @@
 .event-card{
     width: 300px;
     height: 180px;
-    background: transparent;
     padding: 6px;
     color: var(--primary-color);
     border-radius: 10px;
@@ -103,8 +83,8 @@
 
 .event-card .poster{
     width: 100%;
-    height: 110px;
-    background: var(--special-color);
+    height: 140px;
+    background-image: radial-gradient(circle at 17% 77%, rgba(17, 17, 17,0.04) 0%, rgba(17, 17, 17,0.04) 50%,rgba(197, 197, 197,0.04) 50%, rgba(197, 197, 197,0.04) 100%),radial-gradient(circle at 26% 17%, rgba(64, 64, 64,0.04) 0%, rgba(64, 64, 64,0.04) 50%,rgba(244, 244, 244,0.04) 50%, rgba(244, 244, 244,0.04) 100%),radial-gradient(circle at 44% 60%, rgba(177, 177, 177,0.04) 0%, rgba(177, 177, 177,0.04) 50%,rgba(187, 187, 187,0.04) 50%, rgba(187, 187, 187,0.04) 100%),linear-gradient(19deg, rgb(28, 117, 250),rgb(34, 2, 159));
     border-radius: 8px;
     cursor: pointer;
 }
@@ -156,11 +136,12 @@ table {
 
 .event-menu .titre{
     width: 100%;
-    height: 150px;
+    height: 170px;
     border-radius: 10px;
-    background: var(--special-color);
+    background-image: radial-gradient(circle at 17% 77%, rgba(17, 17, 17,0.04) 0%, rgba(17, 17, 17,0.04) 50%,rgba(197, 197, 197,0.04) 50%, rgba(197, 197, 197,0.04) 100%),radial-gradient(circle at 26% 17%, rgba(64, 64, 64,0.04) 0%, rgba(64, 64, 64,0.04) 50%,rgba(244, 244, 244,0.04) 50%, rgba(244, 244, 244,0.04) 100%),radial-gradient(circle at 44% 60%, rgba(177, 177, 177,0.04) 0%, rgba(177, 177, 177,0.04) 50%,rgba(187, 187, 187,0.04) 50%, rgba(187, 187, 187,0.04) 100%),linear-gradient(19deg, rgb(28, 117, 250),rgb(34, 2, 159));
     display: flex;
-    align-items: end;
+    flex-direction: column;
+    justify-content: end;
 
 }
 
@@ -184,9 +165,10 @@ table {
     justify-content: flex-end;
     gap: 10px;
     align-items: center;
-    padding: 14px 8px;
+    padding: 4px 8px;
 }
 
-.event-visual #searchParticipant{
+.event-visual #searchInput{
+    margin-top: 25px;
     width: 500px;
 }

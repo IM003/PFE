@@ -73,23 +73,25 @@
     <br>
     <div class="navbar" style="margin: 0 28px;">
 
-        <h3 style="color: #00297a;">Attestions générées pour l'événement: <span style="color:blue;">{{ evenement.nom }}</span></h3>
+        <h3 style="color: #00297a;">Attestions générées pour l'événement: <br> <span style="color:blue;">{{ evenement.nom }}</span></h3>
         
         <div class="nav-menu">
 
-            <a href="{{ url_for('routes.events', id=evenement.id) }}" class="btn btn-outline-primary"><span class=" bi bi-arrow-left"></span> Retour</a>
+            <a href="{{ url_for('routes.events', id=evenement.id) }}" class="btn btn-outline-primary"><span class=" bi bi-chevron-left"></span> Retour</a>
             
             <form action="{{ url_for('routes.suppr_attest', event_id=evenement.id) }}" method="post">
                 <button type="submit" class="btn btn-danger" onclick="return confirm('Supprimer toutes les attestations de cet événement ?')">
                     Supprimer toutes 
+                    <span class="bi bi-trash"></span>
                 </button>
             </form>
 
           
             
-            <a href="{{ url_for('static', filename=zip_path) }}" class="btn btn-success" download>
-            Télécharger toutes (.zip)
+            <a href="{{ url_for('routes.download_zip', event_id=evenement.id) }}" class="btn btn-success">
+                <i class="bi bi-download"></i> Télécharger (ZIP)
             </a>
+
         </div>
     </div>
 
@@ -108,7 +110,7 @@
         {% endif %}
 
         
-        <a href="{{ url_for('static', filename=attestation.chemin_pdf) }}" class="btn btn-primary" download>Télécharger PDF</a>
+        <a href="{{ url_for('static', filename=attestation.chemin_pdf) }}" class="btn btn-primary" download>Télécharger PDF <span class="bi bi-download"></span></a>
 
     {% endfor %}
 

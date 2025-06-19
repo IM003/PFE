@@ -248,23 +248,28 @@ html, body{
   padding: 16px;
   scrollbar-width: none;
   scrollbar-color: var(--secondary-color);  
+  background: url('/static/image/bg-dash.png') no-repeat center;
+  background-size: 800px;
 }
 
 .stats{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     margin-top: 44px;
+
 }
 
 .stat-card{
+    width: 300px;
+    height: 205px;
     padding: 26px 38px;
     border-radius:10px;
     color: white;
 }
 .stat-card h3{
-    font-size: 45px;
+    font-size: 65px;
 }
 
 
@@ -294,8 +299,6 @@ html, body{
     border-radius: 10px;
     color: var(--primary-color);
 }
-
-
 
 
 

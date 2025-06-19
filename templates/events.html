@@ -11,42 +11,21 @@
 
                 
                 <!--   RECHERCHE DE PARTICIPANTS       -->
+  
                 <div class="search-container mb-4">
                     <div class="input-group">
-                        <input type="text" id="searchParticipant" class="form-control" placeholder="Rechercher par nom ou ID...">
-                        <button class="btn btn-outline-secondary" type="button" id="searchButton">
-                            <i class="bi bi-search"></i>
-                        </button>
+                        <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par nom ou ID..." data-event-id="{{ evenement.id }}">
                     </div>
-                    <div id="searchResults" class="mt-2" style="display:none;">
-                        <div class="list-group" id="resultsList"></div>
+
+                    <!-- Résultats de recherche -->
+                    <div id="searchResults" class="mt-3" style="display: none;">
+                        <ul id="resultList" class="list-group">
+                            <!-- Les résultats s'afficheront ici en JS -->
+                        </ul>
                     </div>
                 </div>
 
-                <script>
-                    function displayResults(results) {
-                        const resultatList = document.getElementById('resultsList');
-                        const resultatDiv = document.getElementById('searchResults');
-                        resultatList.innerHTML = ''; // Efface les résultats précédents
-
-                        if (results.length === 0) {
-                            resultatList.innerHTML = '<div class="list-group-item text-muted">Aucun participant trouvé</div>';
-                        } else {
-                            results.forEach(participant => {
-                                const item = document.createElement('a');
-                                item.className = 'list-group-item list-group-item-action';
-                                item.href = '#'; // Tu peux rediriger vers un profil, ex: `/participant/${participant.id}`
-                                item.innerHTML = `<strong>${participant.nom}</strong> (ID: ${participant.id})`;
-                                resultatList.appendChild(item);
-                            });
-                        }
-
-                        resultatDiv.style.display = 'block';
-                    }
-                </script>
-
                 
-
 
                 <!--   Excel & CSV DE PARTICIPANTS       -->
                 <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#uploadModal">
@@ -91,8 +70,7 @@
                     <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                        <button type="button" class="btn btn-warning" data-bs-dismiss="modal" style="margin: 0px 12px;">CSV <span class="bi bi-filetype-csv"></span></button>
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Excel <span class="bi bi-file-earmark-excel"></span></button>
+                        <h5>Ajouter un participant</h5>
 
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -200,30 +178,22 @@
 
             <div class="titre">
                 <h4>{{ evenement.nom }}</h4>
-            </div>
-
-            
-
-            <h4 class="badge bg-primary" style="margin-top: 10px; font-size: 14px;">
+                <p style="color:white; font-size: 14px;">
                 <i class="bi bi-people" ></i> {{ participant_count }} participants
-            </h4>
-            
+            </p>
+            </div>
+         
             <br>
-
             <div>
                 <p>lieu</p>
                 <h4>{{ evenement.lieu }}</h4>
             </div>
-
             <br>
-            
             <div>
                 <p>date début</p>
                 <h4>{{ evenement.date_deb }}</h4>
             </div>
-
             <br>
-
             <div>
                 <p>date fin</p>
                 <h4>{{ evenement.date_fin }}</h4>
@@ -250,26 +220,78 @@
             <br>
 
 
-            <ul>
-
-                <li><a href="{{url_for('routes.certificate_gallery', event_id=evenement.id)}}">
-                    <svg height="28px" viewBox="0 0 15 15" width="28px" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 14.5H9C9 14.6894 9.107 14.8625 9.27639 14.9472C9.44579 15.0319 9.64849 15.0136 9.8 14.9L9.5 14.5ZM11.5 13L11.8 12.6C11.6222 12.4667 11.3778 12.4667 11.2 12.6L11.5 13ZM13.5 14.5L13.2 14.9C13.3515 15.0136 13.5542 15.0319 13.7236 14.9472C13.893 14.8625 14 14.6894 14 14.5H13.5ZM11.5 11C10.1193 11 9 9.88071 9 8.5H8C8 10.433 9.567 12 11.5 12V11ZM14 8.5C14 9.88071 12.8807 11 11.5 11V12C13.433 12 15 10.433 15 8.5H14ZM11.5 6C12.8807 6 14 7.11929 14 8.5H15C15 6.567 13.433 5 11.5 5V6ZM11.5 5C9.567 5 8 6.567 8 8.5H9C9 7.11929 10.1193 6 11.5 6V5ZM9 10.5V14.5H10V10.5H9ZM9.8 14.9L11.8 13.4L11.2 12.6L9.2 14.1L9.8 14.9ZM11.2 13.4L13.2 14.9L13.8 14.1L11.8 12.6L11.2 13.4ZM14 14.5V10.5H13V14.5H14ZM15 5V1.5H14V5H15ZM13.5 0H1.5V1H13.5V0ZM0 1.5V13.5H1V1.5H0ZM1.5 15H8V14H1.5V15ZM0 13.5C0 14.3284 0.671573 15 1.5 15V14C1.22386 14 1 13.7761 1 13.5H0ZM1.5 0C0.671574 0 0 0.671573 0 1.5H1C1 1.22386 1.22386 1 1.5 1V0ZM15 1.5C15 0.671573 14.3284 0 13.5 0V1C13.7761 1 14 1.22386 14 1.5H15ZM3 5H8V4H3V5ZM3 8H6V7H3V8Z"/></svg>                    
+            <button class="btn btn-outline-primary ctrl-button">
+                <a href="{{url_for('routes.certificate_gallery', event_id=evenement.id)}}">
+                    <span class="bi bi-patch-check"></span>
                     Mes attestations
-                </a></li>
-
-
-                <li><a href="/dashboard">
-                    <svg enable-background="nLew 0 0 32 32" height="32px" id="Layer_1" version="1.1" viewBox="0 0 32 32" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g><path d="M16,30c-3.74,0-7.255-1.456-9.899-4.101C1.779,21.578,0.752,15.025,3.547,9.595C3.8,9.104,4.402,8.911,4.894,9.163   s0.685,0.855,0.432,1.347C2.93,15.164,3.81,20.78,7.515,24.485C9.781,26.752,12.794,28,16,28c3.205,0,6.219-1.248,8.485-3.515   S28,19.205,28,16c0-3.206-1.248-6.219-3.515-8.485S19.206,4,16,4c-3.206,0-6.219,1.249-8.485,3.515   c-0.391,0.391-1.023,0.391-1.414,0s-0.391-1.023,0-1.414C8.745,3.457,12.26,2,16,2c3.74,0,7.256,1.457,9.899,4.101   C28.544,8.745,30,12.26,30,16c0,3.739-1.456,7.255-4.101,9.899C23.256,28.544,19.74,30,16,30z"/></g><g><path d="M16,20c-1.068,0-2.073-0.416-2.829-1.172c-1.56-1.56-1.56-4.097,0-5.656c1.257-1.257,7.272-3.639,8.465-4.104   c0.371-0.144,0.79-0.056,1.07,0.225s0.369,0.7,0.225,1.07c-0.465,1.193-2.847,7.209-4.104,8.465C18.073,19.584,17.068,20,16,20z    M20.188,11.813c-2.453,1.028-5.064,2.235-5.602,2.773c-0.78,0.78-0.78,2.048,0,2.828c0.756,0.756,2.073,0.756,2.829,0   C17.952,16.875,19.16,14.266,20.188,11.813z"/></g></svg>     
+                </a>
+            </button>
+            <button class="btn btn-outline-primary ctrl-button" style="margin: 15px 0px;">
+                <a href="/dashboard">
+                    <span class="bi bi-chevron-left"></span>
                     Retour Tableau de bord
                     </a>
-                </li>
+            </button>
 
-            </ul>
+
 
         </section> 
    
 
 </article>
+
+<!--Script javascript de recherche participant-->
+    <script>
+    document.getElementById("searchInput").addEventListener("input", function () {
+        const query = this.value.trim();
+        const eventId = this.dataset.eventId;
+
+        if (query.length < 1) {
+            document.getElementById("searchResults").style.display = "none";
+            return;
+        }
+
+        fetch(`/search_participant/${eventId}?query=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                const resultList = document.getElementById("resultList");
+                resultList.innerHTML = "";
+
+                if (data.length === 0) {
+                    resultList.innerHTML = "<li class='list-group-item text-danger'>Aucun participant trouvé.</li>";
+                } else {
+                    data.forEach(p => {
+                        const li = document.createElement("li");
+                        li.className = "list-group-item d-flex justify-content-between align-items-center";
+                        li.innerHTML = `
+                            <span><strong>ID:</strong> ${p.id} | <strong>Nom:</strong> ${p.nom}</span>
+                            <button class="btn btn-sm btn-danger" onclick="deleteParticipant(${p.id})"><span class="bi bi-trash"></span></button>
+                        `;
+                        resultList.appendChild(li);
+                    });
+                }
+
+                document.getElementById("searchResults").style.display = "block";
+            });
+    });
+
+    function deleteParticipant(participantId) {
+        if (!confirm("Confirmer la suppression du participant ?")) return;
+
+        fetch(`/delete_participant/${participantId}`, {
+            method: "POST"
+        }).then(response => {
+            if (response.ok) {
+                window.location.reload(); // Recharge après suppression
+            } else {
+                alert("Échec de la suppression.");
+            }
+        });
+    }
+    </script>
+
+
+
 
 {% endblock %}
     

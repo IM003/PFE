@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from models import User, Evenement, Participant, Attestation, ModeleAttestation
 from __init__ import db 
+from sqlalchemy import or_, cast
+from sqlalchemy.types import String
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.utils import secure_filename
@@ -51,7 +53,6 @@ def register():
     
 
     return render_template("register.html", user=current_user)
-
 
 
 
@@ -122,7 +123,7 @@ def dashboard():
 
 
    
-
+# se deconnecter
 
 @routes.route('/logout')
 @login_required
@@ -131,7 +132,7 @@ def logout():
     return redirect(url_for('routes.home'))
 
 
-
+# Les evenements
 @routes.route('/events/<int:id>', methods=['GET', 'POST'])
 @login_required
 def events(id):
@@ -175,8 +176,8 @@ def events(id):
     
     return render_template("events.html",user=current_user,evenement=evenement,participants=participants, participant_count=participant_count)
 
-    
 
+# Modifier les evenements
 @routes.route('/edit_event/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_event(id):
@@ -195,7 +196,7 @@ def edit_event(id):
 
 
 
-
+# Modifier les participants 
 @routes.route('/edit_participant/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_participant(id):
@@ -214,6 +215,7 @@ def edit_participant(id):
 
 
 
+# Affiche les attestations
 @routes.route('/certificate/<int:id>', methods = ['GET', 'POST'])
 @login_required
 def certificate(id):
@@ -308,11 +310,39 @@ def upload_participants(event_id):
 
 # Recherche de participants par Nom et ID 
 
+@routes.route('/search_participant/<int:event_id>')
+@login_required
+def search_participant(event_id):
+    query = request.args.get('query', '').strip()
+    if not query:
+        return jsonify([])
+
+    results = Participant.query.filter(
+        Participant.evenement_id == event_id,
+        or_(
+            Participant.nom.ilike(f"%{query}%"),
+            cast(Participant.id, String).ilike(f"%{query}%")
+        )
+    ).limit(10).all()
+
+    return jsonify([
+        {'id': p.id, 'nom': p.nom}
+        for p in results
+    ])
 
 
 
+# supprimer les partcipants 
+@routes.route('/delete_participant/<int:participant_id>', methods=['POST'])
+@login_required
+def delete_participant(participant_id):
+    participant = Participant.query.get_or_404(participant_id)
+    db.session.delete(participant)
+    db.session.commit()
+    return jsonify({'status': 'success', 'id': participant_id})
 
-#             GENERATE CERTIFICAT
+
+
 
 
 #ajouter des models à la base sde donnee
@@ -393,6 +423,8 @@ def admin_modele_attestation():
 
 
 
+
+#   GENERATE CERTIFICAT
 
 @routes.route('/generate/<int:event_id>', methods=['GET', 'POST'])
 @login_required
@@ -585,7 +617,7 @@ def certificate_gallery(event_id):
 
 
 
-#      SUPPRIMER LES ATTESTATIONS 
+#   SUPPRIMER LES ATTESTATIONS 
 
 
 def suppr_attest_par_evenement(event_id):
@@ -617,4 +649,39 @@ def suppr_attest(event_id):
     suppr_attest_par_evenement(event_id)
     flash(f"Les attestations ont été supprimées.", category="success")
     return redirect(url_for('routes.events', id=event_id))
+
+
+
+# Telecharger Zip de toutes les attestations generer
+
+import zipfile
+import tempfile
+from flask import send_file
+
+@routes.route('/download_zip/<int:event_id>')
+@login_required
+def download_zip(event_id):
+    event_folder = os.path.join("static", "attestations", f"event_{event_id}")
+    
+    if not os.path.exists(event_folder):
+        flash("Le dossier des attestations n'existe pas.", "danger")
+        return redirect(url_for('routes.events', id=event_id))
+
+    #  fichier ZIP temporaire
+    tmp_zip = tempfile.NamedTemporaryFile(delete=False, suffix=".zip")
+    with zipfile.ZipFile(tmp_zip, 'w') as zipf:
+        for root, dirs, files in os.walk(event_folder):
+            for file in files:
+                if file.endswith('.pdf'):
+                    file_path = os.path.join(root, file)
+                    arcname = os.path.relpath(file_path, event_folder)
+                    zipf.write(file_path, arcname)
+
+    tmp_zip.seek(0)
+
+    return send_file(
+        tmp_zip.name,
+        as_attachment=True,
+        download_name=f"attestations_event_{event_id}.zip"
+    )
 

@@ -16,6 +16,27 @@
                     <label class="form-check-label" for="radio{{ modele.id }}">
                     <img src="{{ url_for('static', filename=modele.template_png.replace('static/', '')) }}"  alt="aperçu" style="width: 200px; border:1px solid blue;">
                     </label>
+
+                    <!--Visualiser les modeles -->
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success" style="margin-top: 5px;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Voir <span class="bi bi-eye"></span>
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                        <div class="modal-body">
+                           <img src="{{ url_for('static', filename=modele.template_png.replace('static/', '')) }}"  alt="aperçu" style="width: 100%; height:500px; border:1px solid blue;">
+                        </div>
+
+                        </div>
+                    </div>
+                    </div>
+
+
                 </div>
             </div>
             {% endfor %}
