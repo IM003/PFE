@@ -8,7 +8,7 @@ pyPDF2
 pdf2image
 reportlab
 datetime
-reportlab
+
 
 
 """
