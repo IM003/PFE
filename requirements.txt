@@ -9,25 +9,3 @@ pdf2image
 reportlab
 datetime
 
-
-
-"""
-POPPLER pour la convert des attestations en PNG 
-
-Va sur cette page :
-👉 https://github.com/oschwartz10612/poppler-windows/releases
-
-Télécharge la dernière version ZIP (ex. : poppler-xx.0.0_x86_64.zip)
-
-Dézippe l’archive dans un dossier (ex. : C:\poppler)
-
-Ajoute le chemin C:\poppler\Library\bin dans la variable d’environnement PATH :
-
-Ouvre Paramètres système avancés → Variables d’environnement
-
-Dans Path, clique sur Modifier
-
-Ajoute : C:\poppler\Library\bin
-
-Redémarre ton terminal ou IDE
-"""
